@@ -80,6 +80,10 @@ Si PHP devuelve `cURL error 60` al importar, hay que configurar un bundle de aut
 - Eliminación con confirmación y mensajes de resultado.
 - Importación por ID del 1 al 83 desde `https://swapi.py4e.com/api/people/{id}/`, con estados de carga, error y éxito; control de duplicados, errores HTTP y timeout.
 - Componentes Vue reutilizables para formulario y paginación; diseño Star Wars adaptable a móviles.
+- Búsqueda en vivo por nombre (con una breve espera para evitar consultas por cada tecla) y filtro por género.
+- Ordenamiento ascendente o descendente por número de ficha, nombre, altura, masa o género, aplicado antes de paginar; los datos de altura y masa vacíos aparecen al final.
+- Selector de modo oscuro/claro, con preferencia guardada en el navegador.
+
 - Pruebas HTTP automatizadas y un servicio específico para consultar y transformar SWAPI.
 
 Las medidas importadas fuera de los límites del formulario quedan vacías. Los valores adicionales de género se representan como `n/a`; `planeta_origen` queda vacío porque SWAPI entrega una URL para `homeworld` y la consigna no exige otra consulta. El nombre de un droide importado, como R2-D2, puede conservar sus números al editarse. La regla adicional pedida para nombres manuales sigue prohibiendo números.

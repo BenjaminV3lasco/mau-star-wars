@@ -9,20 +9,61 @@ use App\Services\SwapiService;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\UniqueConstraintViolationException;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class PersonajeController extends Controller
 {
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $personajes = Personaje::query()
+        $filtros = $request->validate([
+            'buscar' => ['nullable', 'string', 'max:100'],
+            'genero' => ['nullable', 'in:masculino,femenino,n/a'],
+            'orden' => ['nullable', 'in:id,nombre,altura,masa,genero'],
+            'direccion' => ['nullable', 'in:asc,desc'],
+        ]);
+
+        $buscar = trim($filtros['buscar'] ?? '');
+        $buscar = $buscar !== '' ? $buscar : null;
+        $genero = $filtros['genero'] ?? '';
+        $orden = $filtros['orden'] ?? 'id';
+        $direccion = $filtros['direccion'] ?? 'desc';
+        $columnasOrdenables = [
+            'id' => 'id',
+            'nombre' => 'nombre',
+            'altura' => 'altura',
+            'masa' => 'masa',
+            'genero' => 'genero',
+        ];
+        $columna = $columnasOrdenables[$orden];
+
+        $consulta = Personaje::query()
             ->select(['id', 'nombre', 'altura', 'masa', 'genero', 'origen_swapi'])
-            ->orderByDesc('id')
-            ->paginate(10);
+            ->when($buscar !== null, fn ($query) => $query->where('nombre', 'like', '%'.$buscar.'%'))
+            ->when($genero !== '', fn ($query) => $query->where('genero', $genero));
+
+        // Las medidas sin dato quedan al final en ambas direcciones.
+        if (in_array($orden, ['altura', 'masa'], true)) {
+            $consulta->orderByRaw($columna.' IS NULL ASC');
+        }
+
+        $consulta->orderBy($columna, $direccion);
+
+        if ($orden !== 'id') {
+            $consulta->orderBy('id', 'asc');
+        }
+
+        $personajes = $consulta->paginate(10)->withQueryString();
 
         return Inertia::render('Personajes/Index', [
             'personajes' => $personajes,
+            'filtros' => [
+                'buscar' => $buscar ?? '',
+                'genero' => $genero,
+                'orden' => $orden,
+                'direccion' => $direccion,
+            ],
         ]);
     }
 
