@@ -1,6 +1,7 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
 import PersonajeForm from '../../Components/PersonajeForm.vue';
+import PersonajeFormLayout from '../../Components/PersonajeFormLayout.vue';
 
 const props = defineProps({
     personaje: { type: Object, required: true },
@@ -24,8 +25,7 @@ function actualizar() {
 <template>
     <Head title="Editar personaje" />
 
-    <main class="mx-auto max-w-2xl px-4 py-10 sm:px-6">
-        <h1 class="text-3xl font-semibold text-slate-900">Editar personaje</h1>
-        <PersonajeForm :form="form" texto-submit="Actualizar" @submit="actualizar" />
-    </main>
+    <PersonajeFormLayout titulo="Editar personaje" :descripcion="`Actualizá los datos de ${personaje.nombre} y mantené su historia al día.`">
+        <PersonajeForm :form="form" texto-submit="Actualizar personaje" @submit="actualizar" />
+    </PersonajeFormLayout>
 </template>

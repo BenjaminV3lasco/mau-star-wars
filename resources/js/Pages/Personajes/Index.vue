@@ -3,57 +3,60 @@ import { Head, Link, usePage } from '@inertiajs/vue3';
 import Paginacion from '../../Components/Paginacion.vue';
 
 const page = usePage();
-
-defineProps({
-    personajes: { type: Object, required: true },
-});
+defineProps({ personajes: { type: Object, required: true } });
+const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplica' };
 </script>
 
 <template>
-    <Head title="Personajes de Star Wars" />
+    <Head title="Archivo de personajes · Star Wars" />
+    <main id="contenido" class="page-shell">
+        <header class="saga-hero">
+            <div class="hero-copy">
+                <p class="eyebrow"><span aria-hidden="true"></span> El universo Star Wars</p>
+                <h1 class="page-title">Personajes<br>de la <em>galaxia.</em></h1>
+                <p class="page-description">Cada personaje tiene una historia.<br>Explorá sus fichas y construí tu propio archivo.</p>
+            </div>
+        </header>
 
-    <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <div class="flex flex-wrap items-center justify-between gap-3">
-            <h1 class="text-3xl font-semibold text-slate-900">Personajes de Star Wars</h1>
-            <Link href="/personajes/crear" class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-700">
-                Crear Nuevo
-            </Link>
-        </div>
+        <p v-if="page.flash?.exito" class="notice-success" role="status">{{ page.flash.exito }}</p>
 
-        <p v-if="page.flash?.exito" class="mt-4 rounded-lg bg-emerald-50 p-3 text-emerald-800" role="status">
-            {{ page.flash.exito }}
-        </p>
-
-        <ul v-if="personajes.data.length" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            <li v-for="personaje in personajes.data" :key="personaje.id" class="rounded-xl border border-slate-200 p-4">
-                <div class="flex flex-wrap items-baseline justify-between gap-2">
-                    <h2 class="min-w-0 font-semibold wrap-anywhere text-slate-900">{{ personaje.nombre }}</h2>
-                    <span class="rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
-                        {{ personaje.origen_swapi ? 'SWAPI' : 'Manual' }}
-                    </span>
+        <section aria-labelledby="archivo-titulo" class="collection">
+            <div class="collection-bar">
+                <div class="collection-heading">
+                    <h2 id="archivo-titulo">Tu archivo</h2>
+                    <span class="count-badge">{{ personajes.total }} {{ personajes.total === 1 ? 'personaje' : 'personajes' }}</span>
                 </div>
-
-                <dl class="mt-4 grid grid-cols-2 gap-x-3 gap-y-2 text-sm">
-                    <dt class="text-slate-600">Altura</dt>
-                    <dd>{{ personaje.altura == null ? '—' : `${personaje.altura} cm` }}</dd>
-                    <dt class="text-slate-600">Masa</dt>
-                    <dd>{{ personaje.masa == null ? '—' : `${personaje.masa} kg` }}</dd>
-                    <dt class="text-slate-600">Género</dt>
-                    <dd>{{ personaje.genero }}</dd>
-                </dl>
-                <Link
-                    :href="`/personajes/${personaje.id}/editar`"
-                    :aria-label="`Editar a ${personaje.nombre}`"
-                    class="mt-4 inline-flex rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-100"
-                >
-                    Editar
-                </Link>
-            </li>
-        </ul>
-        <p v-else class="mt-6 rounded-xl border border-slate-200 p-5 text-slate-700">
-            {{ personajes.total ? 'No hay personajes en esta página.' : 'Todavía no hay personajes registrados.' }}
-        </p>
-
-        <Paginacion :paginador="personajes" />
+                <Link href="/personajes/crear" class="btn-primary"><span aria-hidden="true">＋</span> Crear personaje</Link>
+            </div>
+            <ul v-if="personajes.data.length" class="character-grid">
+                <li v-for="personaje in personajes.data" :key="personaje.id" class="character-card">
+                    <div class="card-topline">
+                        <span class="record-id">Ficha / {{ String(personaje.id).padStart(3, '0') }}</span>
+                        <span class="origin-badge" :class="{ 'origin-swapi': personaje.origen_swapi }">{{ personaje.origen_swapi ? 'SWAPI' : 'Manual' }}</span>
+                    </div>
+                    <h3 class="card-heading">{{ personaje.nombre }}</h3>
+                    <dl class="card-data">
+                        <div>
+                            <dt>Altura</dt>
+                            <dd>{{ personaje.altura ?? '—' }} <span v-if="personaje.altura != null">cm</span><span v-else class="sr-only">Sin datos</span></dd>
+                        </div>
+                        <div>
+                            <dt>Masa</dt>
+                            <dd>{{ personaje.masa ?? '—' }} <span v-if="personaje.masa != null">kg</span><span v-else class="sr-only">Sin datos</span></dd>
+                        </div>
+                        <div class="gender-data">
+                            <dt>Género</dt>
+                            <dd>{{ generos[personaje.genero] ?? personaje.genero }}</dd>
+                        </div>
+                    </dl>
+                    <Link :href="'/personajes/' + personaje.id + '/editar'" :aria-label="'Editar ficha de ' + personaje.nombre" class="card-action">Editar ficha <span aria-hidden="true">↗</span></Link>
+                </li>
+            </ul>
+            <div v-else class="empty-state">
+                <h3>{{ personajes.total ? 'Esta página está vacía.' : 'El comienzo de una nueva historia.' }}</h3>
+                <p v-if="!personajes.total">Creá tu primer personaje para empezar el archivo.</p>
+            </div>
+            <Paginacion :paginador="personajes" />
+        </section>
     </main>
 </template>
