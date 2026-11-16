@@ -1,16 +1,18 @@
 <script setup>
-import { Head, Link } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
+import Boton from '../Components/Atoms/Boton.vue';
+import PortadaSaga from '../Components/Organisms/PortadaSaga.vue';
+import MarcoPagina from '../Components/Templates/MarcoPagina.vue';
 </script>
+
 <template>
     <Head title="Archivo galáctico · Star Wars" />
-    <main id="contenido" class="page-shell landing-shell">
-        <section class="saga-hero landing">
-            <div class="hero-copy">
-                <p class="eyebrow"><span aria-hidden="true"></span> Una galaxia muy, muy lejana…</p>
-                <h1 class="page-title">Grandes historias.<br><em>Personajes eternos.</em></h1>
-                <p class="page-description">El universo de Star Wars, personaje por personaje.<br>Creá tu archivo y descubrí a sus protagonistas.</p>
-                <Link href="/personajes" class="btn-primary">Explorar personajes <span aria-hidden="true">→</span></Link>
-            </div>
-        </section>
-    </main>
+
+    <MarcoPagina>
+        <PortadaSaga antetitulo="Una galaxia muy, muy lejana…" amplia>
+            <template #titulo>Grandes historias.<br><em>Personajes eternos.</em></template>
+            <template #descripcion>El universo de Star Wars, personaje por personaje.<br>Creá tu archivo y descubrí a sus protagonistas.</template>
+            <Boton href="/personajes" class="mt-8">Explorar personajes <span class="text-lg" aria-hidden="true">→</span></Boton>
+        </PortadaSaga>
+    </MarcoPagina>
 </template>

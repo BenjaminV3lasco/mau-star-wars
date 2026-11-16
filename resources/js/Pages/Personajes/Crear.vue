@@ -1,7 +1,7 @@
 <script setup>
 import { Head, useForm } from '@inertiajs/vue3';
-import PersonajeForm from '../../Components/PersonajeForm.vue';
-import PersonajeFormLayout from '../../Components/PersonajeFormLayout.vue';
+import PersonajeForm from '../../Components/Organisms/PersonajeForm.vue';
+import PersonajeFormLayout from '../../Components/Templates/PersonajeFormLayout.vue';
 
 const form = useForm({
     nombre: '',
@@ -21,7 +21,10 @@ function guardar() {
 <template>
     <Head title="Crear personaje" />
 
-    <PersonajeFormLayout titulo="Crear personaje" descripcion="Sumá un nuevo protagonista a tu galaxia. Completá su identidad y los detalles de su ficha.">
-        <PersonajeForm :form="form" texto-submit="Guardar personaje" @submit="guardar" />
+    <PersonajeFormLayout
+        titulo="Crear personaje"
+        descripcion="Sumá un nuevo protagonista a tu galaxia. Completá su identidad y los detalles de su ficha."
+    >
+        <PersonajeForm :form="form" texto-enviar="Guardar personaje" @enviar="guardar" />
     </PersonajeFormLayout>
 </template>

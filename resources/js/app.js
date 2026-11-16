@@ -1,6 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createApp, h } from 'vue';
-import AppLayout from './Components/AppLayout.vue';
+import AppLayout from './Components/Templates/AppLayout.vue';
 
 const pages = import.meta.glob('./Pages/**/*.vue');
 

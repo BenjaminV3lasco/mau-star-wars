@@ -1,0 +1,15 @@
+<script setup>
+defineProps({ swapi: { type: Boolean, default: false } });
+</script>
+
+<template>
+    <span
+        class="inline-flex items-center gap-1.5 rounded-[2px] border px-[.45rem] py-1 text-[.6rem] tracking-[.07em] uppercase"
+        :class="swapi
+            ? 'border-[#365963] text-ice light:border-[#8ebac3] light:text-[#075f72]'
+            : 'border-[#414349] text-[#c4c7ce] light:border-[#d1ccbf] light:text-[#525966]'"
+    >
+        <span class="size-1 rounded-full bg-current" aria-hidden="true"></span>
+        {{ swapi ? 'SWAPI' : 'Manual' }}
+    </span>
+</template>
