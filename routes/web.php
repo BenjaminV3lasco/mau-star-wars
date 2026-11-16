@@ -9,6 +9,7 @@ Route::get('/personajes', [PersonajeController::class, 'index'])->name('personaj
 
 Route::get('/personajes/crear', [PersonajeController::class, 'create'])->name('personajes.create');
 Route::post('/personajes', [PersonajeController::class, 'store'])->name('personajes.store');
+Route::post('/personajes/importar', [PersonajeController::class, 'importar'])->name('personajes.importar');
 
 Route::get('/personajes/{personaje}/editar', [PersonajeController::class, 'edit'])->name('personajes.edit');
 Route::put('/personajes/{personaje}', [PersonajeController::class, 'update'])->name('personajes.update');

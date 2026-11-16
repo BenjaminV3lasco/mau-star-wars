@@ -26,6 +26,6 @@ function actualizar() {
     <Head title="Editar personaje" />
 
     <PersonajeFormLayout titulo="Editar personaje" :descripcion="`Actualizá los datos de ${personaje.nombre} y mantené su historia al día.`">
-        <PersonajeForm :form="form" texto-submit="Actualizar personaje" @submit="actualizar" />
+        <PersonajeForm :form="form" :nombre-alfanumerico="personaje.origen_swapi" texto-submit="Actualizar personaje" @submit="actualizar" />
     </PersonajeFormLayout>
 </template>

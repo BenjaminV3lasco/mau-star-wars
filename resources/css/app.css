@@ -92,6 +92,11 @@
     .confirm-dialog[open] { animation: enter-panel 180ms ease-out; }
     .confirm-dialog::backdrop { background: #020407c9; backdrop-filter: blur(3px); }
     body:has(.confirm-dialog[open]) { overflow: hidden; }
+    .import-dialog { border-top-color: var(--gold); }
+    .import-field { margin-top: 1.5rem; }
+    .import-field .form-label { margin-bottom: .65rem; }
+    .input-help { margin-top: .6rem; color: var(--muted); font-size: .78rem; line-height: 1.6; }
+    .collection-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
     .modal-title { font-family: var(--font-display); font-size: 2.2rem; line-height: 1.1; font-weight: 600; text-transform: uppercase; }
     .modal-description { margin-top: 1rem; font-size: .9rem; line-height: 1.8; color: #bdc0c7; overflow-wrap: anywhere; }
     .modal-description strong { color: #f4f4f5; font-weight: 600; }
@@ -196,7 +201,7 @@
     .modal-actions { flex-direction: column; }
     .modal-actions button { width: 100%; }
     .character-grid { grid-template-columns: 1fr; }
-    .collection-bar > .btn-primary { width: 100%; }
+    .collection-actions, .collection-actions > * { width: 100%; }
     .collection-heading { width: 100%; justify-content: space-between; }
     .form-grid { grid-template-columns: 1fr; }
     .form-panel { padding: 1.25rem; }

@@ -4,6 +4,7 @@ import { Link } from '@inertiajs/vue3';
 defineProps({
     form: { type: Object, required: true },
     textoSubmit: { type: String, required: true },
+    nombreAlfanumerico: { type: Boolean, default: false },
 });
 defineEmits(['submit']);
 
@@ -61,8 +62,8 @@ const patronSinNumeros = '[^\\p{N}]*';
                             v-model="form[campo.nombre]"
                             :name="campo.nombre"
                             :type="campo.tipo"
-                            :pattern="campo.sinNumeros ? patronSinNumeros : undefined"
-                            :title="campo.sinNumeros ? 'Ingresá el texto sin números.' : undefined"
+                            :pattern="campo.sinNumeros && !(campo.nombre === 'nombre' && nombreAlfanumerico) ? patronSinNumeros : undefined"
+                            :title="campo.sinNumeros && !(campo.nombre === 'nombre' && nombreAlfanumerico) ? 'Ingresá el texto sin números.' : undefined"
                             :required="campo.requerido"
                             :minlength="campo.minLength"
                             :maxlength="campo.maxLength"

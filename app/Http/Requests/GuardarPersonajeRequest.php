@@ -2,14 +2,23 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Personaje;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GuardarPersonajeRequest extends FormRequest
 {
     public function rules(): array
     {
+        $personaje = $this->route('personaje');
+        $reglasNombre = ['required', 'string', 'min:3', 'max:100'];
+
+        // Los droides importados, como R2-D2, conservan su nombre al editar.
+        if (! ($personaje instanceof Personaje && $personaje->origen_swapi)) {
+            $reglasNombre[] = 'not_regex:/\p{N}/u';
+        }
+
         return [
-            'nombre' => ['required', 'string', 'min:3', 'max:100', 'not_regex:/\p{N}/u'],
+            'nombre' => $reglasNombre,
             'altura' => ['nullable', 'integer', 'min:1', 'max:300'],
             'masa' => ['nullable', 'integer', 'min:1', 'max:500'],
             'color_cabello' => ['nullable', 'string', 'max:100', 'not_regex:/\p{N}/u'],

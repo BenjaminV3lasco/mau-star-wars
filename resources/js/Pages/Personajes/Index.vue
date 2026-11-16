@@ -3,15 +3,18 @@ import { nextTick, ref } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import EliminarPersonajeModal from '../../Components/EliminarPersonajeModal.vue';
 import Paginacion from '../../Components/Paginacion.vue';
+import ImportarPersonajeModal from '../../Components/ImportarPersonajeModal.vue';
 
 const page = usePage();
 const personajeAEliminar = ref(null);
+const importacionAbierta = ref(false);
 const tituloArchivo = ref(null);
 defineProps({ personajes: { type: Object, required: true } });
 const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplica' };
 
-async function eliminacionCompletada() {
+async function operacionCompletada() {
     personajeAEliminar.value = null;
+    importacionAbierta.value = false;
     await nextTick();
     tituloArchivo.value?.focus();
 }
@@ -36,7 +39,10 @@ async function eliminacionCompletada() {
                     <h2 id="archivo-titulo" ref="tituloArchivo" tabindex="-1">Tu archivo</h2>
                     <span class="count-badge">{{ personajes.total }} {{ personajes.total === 1 ? 'personaje' : 'personajes' }}</span>
                 </div>
-                <Link href="/personajes/crear" class="btn-primary"><span aria-hidden="true">＋</span> Crear personaje</Link>
+                <div class="collection-actions">
+                    <button type="button" class="btn-secondary" @click="importacionAbierta = true">Importar desde SWAPI</button>
+                    <Link href="/personajes/crear" class="btn-primary"><span aria-hidden="true">＋</span> Crear personaje</Link>
+                </div>
             </div>
             <ul v-if="personajes.data.length" class="character-grid">
                 <li v-for="personaje in personajes.data" :key="personaje.id" class="character-card">
@@ -71,14 +77,19 @@ async function eliminacionCompletada() {
             </ul>
             <div v-else class="empty-state">
                 <h3>{{ personajes.total ? 'Esta página está vacía.' : 'El comienzo de una nueva historia.' }}</h3>
-                <p v-if="!personajes.total">Creá tu primer personaje para empezar el archivo.</p>
+                <p v-if="!personajes.total">Creá tu primer personaje o importalo desde SWAPI para empezar el archivo.</p>
             </div>
             <Paginacion :paginador="personajes" />
         </section>
+        <ImportarPersonajeModal
+            :abierto="importacionAbierta"
+            @cerrar="importacionAbierta = false"
+            @importado="operacionCompletada"
+        />
         <EliminarPersonajeModal
             :personaje="personajeAEliminar"
             @cerrar="personajeAEliminar = null"
-            @eliminado="eliminacionCompletada"
+            @eliminado="operacionCompletada"
         />
     </main>
 </template>
