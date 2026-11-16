@@ -5,7 +5,7 @@ Aplicación para crear, consultar, editar, eliminar e importar personajes de Sta
 ## Información del Candidato
 
 - **Nombre:** Benjamín Velasco
-- **Email:** COMPLETAR
+- **Email:** velascobenjamin14@gmail.com
 - **Teléfono:** +54 2657-610234
 - **GitHub:** [BenjaminV3lasco](https://github.com/BenjaminV3lasco)
 
@@ -85,7 +85,7 @@ Para correr las pruebas: `php artisan test`. Usan SQLite en memoria, así que no
 **Bonus**
 
 - Service Layer: `SwapiService` concentra la consulta y la traducción de SWAPI
-- Pruebas automatizadas: 54 pruebas de feature (CRUD, validaciones, importación, filtros)
+- Pruebas unitarias y de feature: 65 casos (conversión de medidas de SWAPI, CRUD, validaciones, importación, filtros y página de error)
 - Seeder con datos de prueba
 - Búsqueda en tiempo real por nombre
 - Filtro por género
@@ -93,6 +93,8 @@ Para correr las pruebas: `php artisan test`. Usan SQLite en memoria, así que no
 - Animaciones con Tailwind (respetan `prefers-reduced-motion`)
 - Modo claro/oscuro, guardado en el navegador
 - Vista de detalle de cada personaje
+- Página de error 404 ambientada en lugar de la de Laravel
+- Interfaz ambientada en Star Wars: campo estelar, color por origen (celeste SWAPI, dorado manual), modal de importación holográfico
 
 ## Tecnologías
 
@@ -110,11 +112,11 @@ Los componentes siguen Atomic Design:
 ```
 resources/js/
 ├── Components/
-│   ├── Atoms/       Boton, Entrada, Selector, Aviso, InsigniaOrigen, Antetitulo…
+│   ├── Atoms/       Boton, Entrada, Selector, Aviso, InsigniaOrigen, EsquinasHud…
 │   ├── Molecules/   CampoFormulario, ModalDialogo, Paginacion
 │   ├── Organisms/   PersonajeForm, PersonajeCard, FiltrosPersonajes, modales, cabecera
 │   └── Templates/   AppLayout, MarcoPagina, PersonajeFormLayout
-├── Pages/           Las páginas que renderiza Inertia
+├── Pages/           Las páginas que renderiza Inertia (incluida Error.vue)
 ├── composables/     useFiltrosPersonajes (búsqueda, filtros y orden)
 └── utils/           Géneros y helpers compartidos
 ```
