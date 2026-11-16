@@ -35,4 +35,20 @@ class PersonajeController extends Controller
 
         return to_route('personajes.index');
     }
+
+    public function edit(Personaje $personaje): Response
+    {
+        return Inertia::render('Personajes/Editar', [
+            'personaje' => $personaje,
+        ]);
+    }
+
+    public function update(GuardarPersonajeRequest $request, Personaje $personaje): RedirectResponse
+    {
+        $personaje->update($request->validated());
+
+        Inertia::flash('exito', 'Personaje actualizado correctamente.');
+
+        return to_route('personajes.index');
+    }
 }

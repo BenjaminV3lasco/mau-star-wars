@@ -41,6 +41,13 @@ defineProps({
                     <dt class="text-slate-600">Género</dt>
                     <dd>{{ personaje.genero }}</dd>
                 </dl>
+                <Link
+                    :href="`/personajes/${personaje.id}/editar`"
+                    :aria-label="`Editar a ${personaje.nombre}`"
+                    class="mt-4 inline-flex rounded-lg border border-slate-300 px-3 py-2 text-sm hover:bg-slate-100"
+                >
+                    Editar
+                </Link>
             </li>
         </ul>
         <p v-else class="mt-6 rounded-xl border border-slate-200 p-5 text-slate-700">
