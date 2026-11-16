@@ -1,12 +1,12 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "benjaminv3lasco/mau-star-wars",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
-    "keywords": ["laravel", "framework"],
+    "description": "Gestión de personajes de Star Wars con Laravel, Vue 3, Inertia y SWAPI.",
+    "keywords": ["laravel", "vue", "inertia", "swapi"],
     "license": "MIT",
     "require": {
-        "php": "^8.3",
+        "php": "^8.4",
         "inertiajs/inertia-laravel": "^3.7",
         "laravel/framework": "^13.17",
         "laravel/tinker": "^3.0"
