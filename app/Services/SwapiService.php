@@ -70,8 +70,8 @@ class SwapiService
     {
         return [
             'nombre' => trim($datos['name']),
-            'altura' => $this->medida($datos['height'], 300),
-            'masa' => $this->medida($datos['mass'], 500),
+            'altura' => self::convertirMedida($datos['height'], 300),
+            'masa' => self::convertirMedida($datos['mass'], 500),
             'color_cabello' => $this->textoOpcional($datos['hair_color']),
             'color_ojos' => $this->textoOpcional($datos['eye_color']),
             'genero' => match (strtolower(trim($datos['gender']))) {
@@ -83,7 +83,7 @@ class SwapiService
         ];
     }
 
-    private function medida(?string $valor, int $maximo): ?int
+    public static function convertirMedida(?string $valor, int $maximo): ?int
     {
         $valor = trim($valor ?? '');
 
