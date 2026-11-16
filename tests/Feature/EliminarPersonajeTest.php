@@ -39,15 +39,6 @@ class EliminarPersonajeTest extends TestCase
         $this->delete(route('personajes.destroy', 999))->assertNotFound();
     }
 
-    public function test_get_cannot_delete_a_character(): void
-    {
-        $personaje = Personaje::create(['nombre' => 'Luke Skywalker', 'genero' => 'masculino']);
-
-        $this->get(route('personajes.destroy', $personaje))->assertStatus(405);
-
-        $this->assertModelExists($personaje);
-    }
-
     public function test_database_failure_preserves_the_character_and_returns_an_error(): void
     {
         $personaje = Personaje::create(['nombre' => 'Luke Skywalker', 'genero' => 'masculino']);

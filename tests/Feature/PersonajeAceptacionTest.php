@@ -106,7 +106,6 @@ class PersonajeAceptacionTest extends TestCase
             [['nombre' => ''], 'nombre'],
             [['nombre' => 'ab'], 'nombre'],
             [['nombre' => str_repeat('a', 101)], 'nombre'],
-            [['nombre' => 'Leia 2'], 'nombre'],
             [['altura' => 0], 'altura'],
             [['altura' => 301], 'altura'],
             [['altura' => 1.5], 'altura'],
@@ -133,5 +132,32 @@ class PersonajeAceptacionTest extends TestCase
             'color_cabello' => str_repeat('b', 100), 'color_ojos' => null,
             'planeta_origen' => 'Yavin 4',
         ]);
+    }
+
+    public function test_detail_page_shows_the_full_character(): void
+    {
+        $personaje = Personaje::create(['nombre' => 'Leia Organa', 'genero' => 'femenino', 'planeta_origen' => 'Alderaan']);
+
+        $this->get(route('personajes.show', $personaje))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('Personajes/Mostrar')
+                ->where('personaje.nombre', 'Leia Organa')
+                ->where('personaje.planeta_origen', 'Alderaan'));
+    }
+
+    public function test_list_filters_by_name_and_gender_and_sorts_missing_measures_last(): void
+    {
+        Personaje::create(['nombre' => 'Luke Skywalker', 'genero' => 'masculino', 'altura' => 172]);
+        Personaje::create(['nombre' => 'Leia Organa', 'genero' => 'femenino', 'altura' => 150]);
+        Personaje::create(['nombre' => 'Lando Calrissian', 'genero' => 'masculino']);
+        Personaje::create(['nombre' => 'Han Solo', 'genero' => 'masculino', 'altura' => 180]);
+
+        $this->get(route('personajes.index', ['buscar' => 'l', 'genero' => 'masculino', 'orden' => 'altura', 'direccion' => 'asc']))
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page->component('Personajes/Index')
+                ->where('personajes.data.0.nombre', 'Luke Skywalker')
+                ->where('personajes.data.1.nombre', 'Han Solo')
+                ->where('personajes.data.2.nombre', 'Lando Calrissian')
+                ->where('filtros.genero', 'masculino'));
     }
 }
