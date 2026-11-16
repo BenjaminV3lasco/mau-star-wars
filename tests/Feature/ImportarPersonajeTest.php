@@ -50,7 +50,7 @@ class ImportarPersonajeTest extends TestCase
             'swapi_id' => 1, 'nombre' => 'Nombre enviado por el cliente', 'origen_swapi' => false,
         ])->assertRedirect(route('personajes.index'))
             ->assertSessionHasNoErrors()
-            ->assertSessionHas('inertia.flash_data.exito', 'Luke Skywalker se importó correctamente desde SWAPI.');
+            ->assertSessionHas('inertia.flash_data.exito', 'Luke Skywalker llegó desde SWAPI y ya forma parte del archivo.');
 
         $this->assertDatabaseCount('personajes', 1);
         $this->assertDatabaseHas('personajes', [

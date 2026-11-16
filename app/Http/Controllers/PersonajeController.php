@@ -60,9 +60,9 @@ class PersonajeController extends Controller
 
     public function store(GuardarPersonajeRequest $request): RedirectResponse
     {
-        Personaje::create($request->validated());
+        $personaje = Personaje::create($request->validated());
 
-        Inertia::flash('exito', 'Personaje creado correctamente.');
+        Inertia::flash('exito', $personaje->nombre.' se sumó al archivo.');
 
         return to_route('personajes.index');
     }
@@ -88,7 +88,7 @@ class PersonajeController extends Controller
             ]);
         }
 
-        Inertia::flash('exito', $personaje->nombre.' se importó correctamente desde SWAPI.');
+        Inertia::flash('exito', $personaje->nombre.' llegó desde SWAPI y ya forma parte del archivo.');
 
         return to_route('personajes.index');
     }
@@ -104,7 +104,7 @@ class PersonajeController extends Controller
     {
         $personaje->update($request->validated());
 
-        Inertia::flash('exito', 'Personaje actualizado correctamente.');
+        Inertia::flash('exito', 'La ficha de '.$personaje->nombre.' se actualizó.');
 
         return to_route('personajes.index');
     }
@@ -121,7 +121,7 @@ class PersonajeController extends Controller
             ]);
         }
 
-        Inertia::flash('exito', 'Personaje eliminado correctamente.');
+        Inertia::flash('exito', $personaje->nombre.' fue eliminado del archivo.');
 
         return to_route('personajes.index');
     }

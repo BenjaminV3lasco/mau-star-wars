@@ -27,7 +27,7 @@ class EliminarPersonajeTest extends TestCase
 
         $this->delete(route('personajes.destroy', $personaje))
             ->assertRedirect(route('personajes.index'))
-            ->assertSessionHas('inertia.flash_data.exito', 'Personaje eliminado correctamente.');
+            ->assertSessionHas('inertia.flash_data.exito', 'Luke Skywalker fue eliminado del archivo.');
 
         $this->assertModelMissing($personaje);
         $this->assertModelExists($otro);
