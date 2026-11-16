@@ -6,3 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::inertia('/', 'Inicio');
 
 Route::get('/personajes', [PersonajeController::class, 'index'])->name('personajes.index');
+
+Route::get('/personajes/crear', [PersonajeController::class, 'create'])->name('personajes.create');
+Route::post('/personajes', [PersonajeController::class, 'store'])->name('personajes.store');

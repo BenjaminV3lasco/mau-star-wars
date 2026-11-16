@@ -1,6 +1,8 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import Paginacion from '../../Components/Paginacion.vue';
+
+const page = usePage();
 
 defineProps({
     personajes: { type: Object, required: true },
@@ -11,7 +13,16 @@ defineProps({
     <Head title="Personajes de Star Wars" />
 
     <main class="mx-auto max-w-5xl px-4 py-10 sm:px-6">
-        <h1 class="text-3xl font-semibold text-slate-900">Personajes de Star Wars</h1>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <h1 class="text-3xl font-semibold text-slate-900">Personajes de Star Wars</h1>
+            <Link href="/personajes/crear" class="rounded-lg bg-slate-900 px-4 py-2 text-white hover:bg-slate-700">
+                Crear Nuevo
+            </Link>
+        </div>
+
+        <p v-if="page.flash?.exito" class="mt-4 rounded-lg bg-emerald-50 p-3 text-emerald-800" role="status">
+            {{ page.flash.exito }}
+        </p>
 
         <ul v-if="personajes.data.length" class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <li v-for="personaje in personajes.data" :key="personaje.id" class="rounded-xl border border-slate-200 p-4">
