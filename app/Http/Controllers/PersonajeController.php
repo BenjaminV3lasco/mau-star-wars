@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GuardarPersonajeRequest;
 use App\Models\Personaje;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -48,6 +49,23 @@ class PersonajeController extends Controller
         $personaje->update($request->validated());
 
         Inertia::flash('exito', 'Personaje actualizado correctamente.');
+
+        return to_route('personajes.index');
+    }
+
+    public function destroy(Personaje $personaje): RedirectResponse
+    {
+        try {
+            $personaje->delete();
+        } catch (QueryException $exception) {
+            report($exception);
+
+            return back()->withErrors([
+                'eliminar' => 'No pudimos eliminar el personaje. Intentá nuevamente.',
+            ]);
+        }
+
+        Inertia::flash('exito', 'Personaje eliminado correctamente.');
 
         return to_route('personajes.index');
     }

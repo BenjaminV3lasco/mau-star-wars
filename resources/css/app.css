@@ -69,10 +69,13 @@
     .card-data dd span { font-family: var(--font-sans); font-size: .7rem; font-weight: 400; color: #a6a9b1; }
     .card-data .gender-data { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; padding: .7rem 0 1rem; }
     .gender-data dd { font-family: var(--font-sans); font-size: .78rem; font-weight: 400; }
-    .card-action { display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); padding-block: 1rem; color: var(--gold); font-size: .78rem; font-weight: 500; }
+    .card-actions { display: flex; align-items: center; justify-content: space-between; gap: 1rem; border-top: 1px solid var(--line); padding-block: .6rem; }
+    .card-action { display: flex; align-items: center; gap: .6rem; min-height: 44px; color: var(--gold); font-size: .78rem; font-weight: 500; }
+    .card-delete { min-height: 44px; padding: .5rem; color: #ffabb2; font-size: .78rem; border-radius: 3px; transition: background 150ms, color 150ms; }
+    .card-delete:hover { color: #ffccd0; background: #f1959510; }
     .card-action span { font-size: 1.1rem; transition: transform 180ms; }
     .card-action:hover span { transform: translate(2px, -2px); }
-    .btn-primary, .btn-secondary { position: relative; min-height: 46px; display: inline-flex; justify-content: center; align-items: center; gap: .75rem; padding: .75rem 1.15rem; border: 1px solid; border-radius: 3px; font-size: .78rem; font-weight: 600; line-height: 1.4; transition: background 150ms, border-color 150ms, box-shadow 150ms, transform 150ms; }
+    .btn-primary, .btn-secondary, .btn-danger { position: relative; min-height: 46px; display: inline-flex; justify-content: center; align-items: center; gap: .75rem; padding: .75rem 1.15rem; border: 1px solid; border-radius: 3px; font-size: .78rem; font-weight: 600; line-height: 1.4; transition: background 150ms, border-color 150ms, box-shadow 150ms, transform 150ms; }
     .btn-primary { overflow: hidden; background: var(--gold); color: #14130c; border-color: var(--gold); }
     .btn-primary:hover { background: #ffea8c; border-color: #ffea8c; box-shadow: 0 0 20px #ffe15a20; }
     .btn-primary::before { content: ''; position: absolute; inset: 0 auto 0 -45%; width: 32%; pointer-events: none; background: linear-gradient(105deg, transparent, #ffffff65, transparent); transform: translateX(0) skewX(-18deg); }
@@ -82,6 +85,18 @@
     .btn-secondary { border-color: #42464e; background: transparent; color: #dddfe4; }
     .btn-secondary:hover { border-color: #9a9fa9; background: #ffffff06; }
     .btn-primary:disabled { opacity: .55; cursor: wait; box-shadow: none; }
+    .btn-danger { background: #a82e40; border-color: #d25d6e; color: #fff; }
+    .btn-danger:hover:not(:disabled) { background: #bd364a; border-color: #e57887; }
+    .modal-actions button:disabled { opacity: .55; cursor: wait; }
+    .confirm-dialog { width: min(28rem, calc(100% - 2rem)); max-height: calc(100dvh - 2rem); margin: auto; padding: 2rem; overflow: auto; border: 1px solid #62616a; border-top: 2px solid #e57887; border-radius: 4px; color: #f2f1ed; background: #14161a; box-shadow: 0 24px 100px #000000aa; }
+    .confirm-dialog[open] { animation: enter-panel 180ms ease-out; }
+    .confirm-dialog::backdrop { background: #020407c9; backdrop-filter: blur(3px); }
+    body:has(.confirm-dialog[open]) { overflow: hidden; }
+    .modal-title { font-family: var(--font-display); font-size: 2.2rem; line-height: 1.1; font-weight: 600; text-transform: uppercase; }
+    .modal-description { margin-top: 1rem; font-size: .9rem; line-height: 1.8; color: #bdc0c7; overflow-wrap: anywhere; }
+    .modal-description strong { color: #f4f4f5; font-weight: 600; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: .75rem; margin-top: 1.75rem; }
+    .notice-error { margin-top: 1rem; padding: .85rem 1rem; border: 1px solid #a45460; border-radius: 3px; background: #30171d; color: #ffbfc7; font-size: .82rem; line-height: 1.6; }
     .text-muted { color: var(--muted); }
     .form-page { padding-top: 1.5rem; }
     .back-link { display: inline-flex; align-items: center; gap: .7rem; min-height: 44px; margin-bottom: 1.1rem; font-size: .78rem; color: #aeb2bb; }
@@ -177,6 +192,9 @@
     .landing { min-height: 570px; }
 }
 @media (max-width: 480px) {
+    .confirm-dialog { padding: 1.5rem; }
+    .modal-actions { flex-direction: column; }
+    .modal-actions button { width: 100%; }
     .character-grid { grid-template-columns: 1fr; }
     .collection-bar > .btn-primary { width: 100%; }
     .collection-heading { width: 100%; justify-content: space-between; }

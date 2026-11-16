@@ -1,10 +1,20 @@
 <script setup>
+import { nextTick, ref } from 'vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
+import EliminarPersonajeModal from '../../Components/EliminarPersonajeModal.vue';
 import Paginacion from '../../Components/Paginacion.vue';
 
 const page = usePage();
+const personajeAEliminar = ref(null);
+const tituloArchivo = ref(null);
 defineProps({ personajes: { type: Object, required: true } });
 const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplica' };
+
+async function eliminacionCompletada() {
+    personajeAEliminar.value = null;
+    await nextTick();
+    tituloArchivo.value?.focus();
+}
 </script>
 
 <template>
@@ -23,7 +33,7 @@ const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplic
         <section aria-labelledby="archivo-titulo" class="collection">
             <div class="collection-bar">
                 <div class="collection-heading">
-                    <h2 id="archivo-titulo">Tu archivo</h2>
+                    <h2 id="archivo-titulo" ref="tituloArchivo" tabindex="-1">Tu archivo</h2>
                     <span class="count-badge">{{ personajes.total }} {{ personajes.total === 1 ? 'personaje' : 'personajes' }}</span>
                 </div>
                 <Link href="/personajes/crear" class="btn-primary"><span aria-hidden="true">＋</span> Crear personaje</Link>
@@ -49,7 +59,14 @@ const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplic
                             <dd>{{ generos[personaje.genero] ?? personaje.genero }}</dd>
                         </div>
                     </dl>
-                    <Link :href="'/personajes/' + personaje.id + '/editar'" :aria-label="'Editar ficha de ' + personaje.nombre" class="card-action">Editar ficha <span aria-hidden="true">↗</span></Link>
+                    <div class="card-actions">
+                        <Link :href="'/personajes/' + personaje.id + '/editar'" :aria-label="'Editar ficha de ' + personaje.nombre" class="card-action">
+                            Editar ficha <span aria-hidden="true">↗</span>
+                        </Link>
+                        <button type="button" class="card-delete" :aria-label="'Eliminar a ' + personaje.nombre" @click="personajeAEliminar = personaje">
+                            Eliminar
+                        </button>
+                    </div>
                 </li>
             </ul>
             <div v-else class="empty-state">
@@ -58,5 +75,10 @@ const generos = { masculino: 'Masculino', femenino: 'Femenino', 'n/a': 'No aplic
             </div>
             <Paginacion :paginador="personajes" />
         </section>
+        <EliminarPersonajeModal
+            :personaje="personajeAEliminar"
+            @cerrar="personajeAEliminar = null"
+            @eliminado="eliminacionCompletada"
+        />
     </main>
 </template>
