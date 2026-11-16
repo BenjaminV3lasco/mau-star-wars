@@ -76,6 +76,7 @@ Si PHP devuelve `cURL error 60` al importar, hay que configurar un bundle de aut
 ## Funcionalidades implementadas
 
 - Listado de personajes en tarjetas, paginado de diez en diez, con altura, masa, género y origen Manual/SWAPI.
+- Cada tarjeta abre una ficha completa con las características y la procedencia del registro; desde allí se puede editar o eliminar.
 - Alta y edición con validación en el navegador y el servidor. Los datos opcionales pueden quedar vacíos.
 - Eliminación con confirmación y mensajes de resultado.
 - Importación por ID del 1 al 83 desde `https://swapi.py4e.com/api/people/{id}/`, con estados de carga, error y éxito; control de duplicados, errores HTTP y timeout.

@@ -67,6 +67,13 @@ class PersonajeController extends Controller
         ]);
     }
 
+    public function show(Personaje $personaje): Response
+    {
+        return Inertia::render('Personajes/Mostrar', [
+            'personaje' => $personaje,
+        ]);
+    }
+
     public function create(): Response
     {
         return Inertia::render('Personajes/Crear');

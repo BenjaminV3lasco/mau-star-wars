@@ -108,6 +108,13 @@ function cambiarDireccion() {
     direccionOrden.value = direccionOrden.value === 'asc' ? 'desc' : 'asc';
 }
 
+function urlFicha(id) {
+    const indiceConsulta = page.url.indexOf('?');
+    const consulta = indiceConsulta === -1 ? '' : page.url.slice(indiceConsulta);
+
+    return '/personajes/' + id + consulta;
+}
+
 onBeforeUnmount(() => {
     window.clearTimeout(temporizadorBusqueda);
     numeroPeticion++;
@@ -204,25 +211,28 @@ async function operacionCompletada() {
 
             <ul v-if="personajes.data.length" class="character-grid">
                 <li v-for="personaje in personajes.data" :key="personaje.id" class="character-card">
-                    <div class="card-topline">
-                        <span class="record-id">Ficha / {{ String(personaje.id).padStart(3, '0') }}</span>
-                        <span class="origin-badge" :class="{ 'origin-swapi': personaje.origen_swapi }">{{ personaje.origen_swapi ? 'SWAPI' : 'Manual' }}</span>
-                    </div>
-                    <h3 class="card-heading">{{ personaje.nombre }}</h3>
-                    <dl class="card-data">
-                        <div>
-                            <dt>Altura</dt>
-                            <dd>{{ personaje.altura ?? '—' }} <span v-if="personaje.altura != null">cm</span><span v-else class="sr-only">Sin datos</span></dd>
+                    <Link :href="urlFicha(personaje.id)" :aria-label="'Abrir ficha completa de ' + personaje.nombre" class="character-card-link">
+                        <div class="card-topline">
+                            <span class="record-id">Ficha / {{ String(personaje.id).padStart(3, '0') }}</span>
+                            <span class="origin-badge" :class="{ 'origin-swapi': personaje.origen_swapi }">{{ personaje.origen_swapi ? 'SWAPI' : 'Manual' }}</span>
                         </div>
-                        <div>
-                            <dt>Masa</dt>
-                            <dd>{{ personaje.masa ?? '—' }} <span v-if="personaje.masa != null">kg</span><span v-else class="sr-only">Sin datos</span></dd>
-                        </div>
-                        <div class="gender-data">
-                            <dt>Género</dt>
-                            <dd>{{ generos[personaje.genero] ?? personaje.genero }}</dd>
-                        </div>
-                    </dl>
+                        <h3 class="card-heading">{{ personaje.nombre }}</h3>
+                        <dl class="card-data">
+                            <div>
+                                <dt>Altura</dt>
+                                <dd>{{ personaje.altura ?? '—' }} <span v-if="personaje.altura != null">cm</span><span v-else class="sr-only">Sin datos</span></dd>
+                            </div>
+                            <div>
+                                <dt>Masa</dt>
+                                <dd>{{ personaje.masa ?? '—' }} <span v-if="personaje.masa != null">kg</span><span v-else class="sr-only">Sin datos</span></dd>
+                            </div>
+                            <div class="gender-data">
+                                <dt>Género</dt>
+                                <dd>{{ generos[personaje.genero] ?? personaje.genero }}</dd>
+                            </div>
+                        </dl>
+                        <span class="card-open-cue">Abrir ficha completa <span aria-hidden="true">↗</span></span>
+                    </Link>
                     <div class="card-actions">
                         <Link :href="'/personajes/' + personaje.id + '/editar'" :aria-label="'Editar ficha de ' + personaje.nombre" class="card-action">
                             Editar ficha <span aria-hidden="true">↗</span>

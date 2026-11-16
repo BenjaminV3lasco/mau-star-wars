@@ -8,6 +8,7 @@ Route::inertia('/', 'Inicio');
 Route::get('/personajes', [PersonajeController::class, 'index'])->name('personajes.index');
 
 Route::get('/personajes/crear', [PersonajeController::class, 'create'])->name('personajes.create');
+Route::get('/personajes/{personaje}', [PersonajeController::class, 'show'])->name('personajes.show');
 Route::post('/personajes', [PersonajeController::class, 'store'])->name('personajes.store');
 Route::post('/personajes/importar', [PersonajeController::class, 'importar'])->name('personajes.importar');
 
