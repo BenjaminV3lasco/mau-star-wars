@@ -13,4 +13,11 @@ class InicioTest extends TestCase
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page->component('Inicio'));
     }
+
+    public function test_unknown_pages_render_the_themed_not_found_page(): void
+    {
+        $this->get('/ruta-que-no-existe')
+            ->assertNotFound()
+            ->assertInertia(fn (Assert $page) => $page->component('Error')->where('estado', 404));
+    }
 }

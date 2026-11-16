@@ -5,6 +5,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Request;
+use Inertia\ExceptionResponse;
+use Inertia\Inertia;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,4 +21,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $respuesta) {
+            $estado = $respuesta->statusCode();
+
+            if ($respuesta->request->isMethod('GET') && in_array($estado, [403, 404, 503], true)) {
+                return $respuesta->render('Error', ['estado' => $estado])->withSharedData();
+            }
+        });
     })->create();
