@@ -5,13 +5,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Inicio');
 
-Route::get('/personajes', [PersonajeController::class, 'index'])->name('personajes.index');
-
-Route::get('/personajes/crear', [PersonajeController::class, 'create'])->name('personajes.create');
-Route::get('/personajes/{personaje}', [PersonajeController::class, 'show'])->name('personajes.show');
-Route::post('/personajes', [PersonajeController::class, 'store'])->name('personajes.store');
-Route::post('/personajes/importar', [PersonajeController::class, 'importar'])->name('personajes.importar');
-
-Route::get('/personajes/{personaje}/editar', [PersonajeController::class, 'edit'])->name('personajes.edit');
-Route::put('/personajes/{personaje}', [PersonajeController::class, 'update'])->name('personajes.update');
-Route::delete('/personajes/{personaje}', [PersonajeController::class, 'destroy'])->name('personajes.destroy');
+Route::controller(PersonajeController::class)
+    ->prefix('personajes')
+    ->name('personajes.')
+    ->group(function (): void {
+        Route::get('/', 'index')->name('index');
+        Route::get('/crear', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+        Route::post('/importar', 'importar')->name('importar');
+        Route::get('/{personaje}', 'show')->name('show');
+        Route::get('/{personaje}/editar', 'edit')->name('edit');
+        Route::put('/{personaje}', 'update')->name('update');
+        Route::delete('/{personaje}', 'destroy')->name('destroy');
+    });
