@@ -1,138 +1,166 @@
 # Sistema de Gestión de Personajes Star Wars
 
-Aplicación local para crear, consultar, editar, eliminar e importar personajes de Star Wars. Laravel gestiona rutas, validaciones, MySQL y la consulta a SWAPI; Vue 3 muestra las pantallas mediante Inertia.
+Aplicación para crear, consultar, editar, eliminar e importar personajes de Star Wars desde [SWAPI](https://swapi.py4e.com/documentation). Laravel resuelve rutas, validaciones, persistencia en MySQL y la consulta a SWAPI; Vue 3 dibuja las pantallas a través de Inertia.
 
-## Información del candidato
+## Información del Candidato
 
 - **Nombre:** Benjamín Velasco
-- **Email:** pendiente de completar por el candidato antes de entregar.
+- **Email:** COMPLETAR
 - **Teléfono:** +54 2657-610234
 - **GitHub:** [BenjaminV3lasco](https://github.com/BenjaminV3lasco)
-- **Repositorio público:** [github.com/BenjaminV3lasco/mau-star-wars](https://github.com/BenjaminV3lasco/mau-star-wars).
 
-## Requisitos del sistema
+## Requisitos del Sistema
 
-- PHP **8.3 o superior** con `pdo_mysql`, `curl` y `openssl`. Para ejecutar las pruebas, también `pdo_sqlite`.
-- Composer 2.
-- Node.js **22.12 o superior** y npm. Vite 8 requiere una versión reciente de Node; el proyecto se verificó con Node 22.13 y npm 11.
-- MySQL 8 o superior.
+- PHP **8.4 o superior** con las extensiones `pdo_mysql`, `curl` y `openssl` (y `pdo_sqlite` para correr las pruebas).
+- Composer 2
+- Node.js **22.12 o superior** y npm (lo pide Vite 8)
+- MySQL 8 o superior
 
-Entorno utilizado: PHP 8.4.0, Composer 2.8.12, Laravel Framework 13.42.0, Vue 3.5, Inertia 3, Tailwind CSS 4, Vite 8 y MySQL 8.4. La versión exacta de cada dependencia se fija en `composer.lock` y `package-lock.json`.
+> Laravel 13 requiere PHP 8.3, pero el `composer.lock` incluye componentes de Symfony 8 que piden PHP 8.4.
 
 ## Instalación
 
-1. Clonar el repositorio y entrar al proyecto:
+1. Clonar el repositorio
 
    ```bash
    git clone https://github.com/BenjaminV3lasco/mau-star-wars.git
    cd mau-star-wars
    ```
 
-2. Instalar las dependencias fijadas en los lockfiles:
+2. Instalar dependencias
 
    ```bash
    composer install
-   npm ci
+   npm install
    ```
 
-3. Crear una base vacía en MySQL 8 con un usuario que tenga permisos para crear tablas. Por ejemplo, desde el cliente MySQL:
+3. Configurar la base de datos
+
+   Crear una base vacía en MySQL:
 
    ```sql
    CREATE DATABASE mau_star_wars CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
    ```
 
-4. Copiar `.env.example` a `.env` y completar `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME` y `DB_PASSWORD` con los datos de **tu** MySQL. El ejemplo trae `mau_app` como nombre de usuario de referencia; se puede reemplazar por uno ya existente. Nunca subir `.env` al repositorio.
-
-   En PowerShell:
-
-   ```powershell
-   Copy-Item .env.example .env
-   ```
-
-   En macOS o Linux:
+   Copiar el archivo de entorno (en PowerShell: `Copy-Item .env.example .env`), completar `DB_USERNAME` y `DB_PASSWORD` con las credenciales de MySQL y generar la clave:
 
    ```bash
    cp .env.example .env
+   php artisan key:generate
    ```
 
-5. Generar la clave, crear las tablas y compilar los recursos:
+4. Ejecutar migraciones (con `--seed` se cargan 12 personajes de ejemplo; es opcional)
 
    ```bash
-   php artisan key:generate
-   php artisan migrate
+   php artisan migrate --seed
+   ```
+
+5. Compilar assets (necesita internet: descarga las fuentes desde Bunny Fonts)
+
+   ```bash
    npm run build
    ```
 
-6. Iniciar la aplicación:
+6. Iniciar servidor
 
    ```bash
    php artisan serve
    ```
 
-   Abrir [http://127.0.0.1:8000/personajes](http://127.0.0.1:8000/personajes). El servidor permanece activo mientras la terminal esté abierta. Para desarrollo visual, se puede ejecutar `npm run dev` en otra terminal; para usar el build anterior no hace falta.
+7. Acceder a <http://localhost:8000/personajes>
 
-Si PHP devuelve `cURL error 60` al importar, hay que configurar un bundle de autoridades certificadoras en el `php.ini` que usa `php --ini`, mediante `curl.cainfo` y `openssl.cafile`, y reiniciar el servidor. En Windows con Herd Lite se verificó con el [bundle oficial de curl](https://curl.se/ca/cacert.pem) y su checksum publicado. **La verificación HTTPS debe permanecer habilitada.** El procedimiento y la incidencia real están en [context/importacion-swapi.md](context/importacion-swapi.md).
+Para correr las pruebas: `php artisan test`. Usan SQLite en memoria, así que no tocan la base MySQL.
 
-## Funcionalidades implementadas
+## Funcionalidades Implementadas
 
-- Listado de personajes en tarjetas, paginado de diez en diez, con altura, masa, género y origen Manual/SWAPI.
-- Cada tarjeta abre una ficha completa con las características y la procedencia del registro; desde allí se puede editar o eliminar.
-- Alta y edición con validación en el navegador y el servidor. Los datos opcionales pueden quedar vacíos.
-- Eliminación con confirmación y mensajes de resultado.
-- Importación por ID del 1 al 83 desde `https://swapi.py4e.com/api/people/{id}/`, con estados de carga, error y éxito; control de duplicados, errores HTTP y timeout.
-- Componentes Vue reutilizables para formulario y paginación; diseño Star Wars adaptable a móviles.
-- Búsqueda en vivo por nombre (con una breve espera para evitar consultas por cada tecla) y filtro por género.
-- Ordenamiento ascendente o descendente por número de ficha, nombre, altura, masa o género, aplicado antes de paginar; los datos de altura y masa vacíos aparecen al final.
-- Selector de modo oscuro/claro, con preferencia guardada en el navegador.
+**Obligatorias**
 
-- Pruebas HTTP automatizadas y un servicio específico para consultar y transformar SWAPI.
+- CRUD completo de personajes
+- Integración con SWAPI (importación por ID, con control de duplicados y errores)
+- Validaciones en backend y frontend
+- Paginación de 10 personajes por página
+- Componentes Vue reutilizables
+- Diseño responsive (probado desde 320 px)
 
-Las medidas importadas fuera de los límites del formulario quedan vacías. Los valores adicionales de género se representan como `n/a`; `planeta_origen` queda vacío porque SWAPI entrega una URL para `homeworld` y la consigna no exige otra consulta. El nombre de un droide importado, como R2-D2, puede conservar sus números al editarse. La regla adicional pedida para nombres manuales sigue prohibiendo números.
+**Bonus**
 
-## Comprobación rápida
+- Service Layer: `SwapiService` concentra la consulta y la traducción de SWAPI
+- Pruebas automatizadas: 54 pruebas de feature (CRUD, validaciones, importación, filtros)
+- Seeder con datos de prueba
+- Búsqueda en tiempo real por nombre
+- Filtro por género
+- Ordenamiento por número de ficha, nombre, altura, masa o género
+- Animaciones con Tailwind (respetan `prefers-reduced-motion`)
+- Modo claro/oscuro, guardado en el navegador
+- Vista de detalle de cada personaje
 
-```bash
-php artisan route:list --path=personajes
-php artisan test
-npm run build
+## Tecnologías
+
+- Laravel 13
+- Vue.js 3.5 (Composition API con `<script setup>`)
+- Inertia.js 3
+- Tailwind CSS 4
+- Vite 8
+- MySQL 8
+
+## Estructura del frontend
+
+Los componentes siguen Atomic Design:
+
+```
+resources/js/
+├── Components/
+│   ├── Atoms/       Boton, Entrada, Selector, Aviso, InsigniaOrigen, Antetitulo…
+│   ├── Molecules/   CampoFormulario, ModalDialogo, Paginacion
+│   ├── Organisms/   PersonajeForm, PersonajeCard, FiltrosPersonajes, modales, cabecera
+│   └── Templates/   AppLayout, MarcoPagina, PersonajeFormLayout
+├── Pages/           Las páginas que renderiza Inertia
+├── composables/     useFiltrosPersonajes (búsqueda, filtros y orden)
+└── utils/           Géneros y helpers compartidos
 ```
 
-`php artisan test` utiliza SQLite **en memoria** según `phpunit.xml` y comprueba que la conexión sea esa antes de renovar tablas. No borra ni modifica los personajes de la base MySQL local. Última ejecución: **55 pruebas y 232 assertions correctas**. También se comprobó en Edge la importación real de R2-D2, su edición, un intento duplicado y el modal a 320 px.
+## Notas
+
+- **Mapeo de SWAPI:** los géneros distintos de `male` y `female` (`hermaphrodite`, `none`, `n/a`) se guardan como `n/a`. Los valores `unknown` quedan vacíos. Si una medida supera los límites del formulario (por ejemplo, Jabba pesa 1.358 kg), se guarda vacía para no inventar un dato. `planeta_origen` queda vacío porque SWAPI entrega una URL en `homeworld` y la consigna no pide una segunda consulta.
+- **`cURL error 60` al importar:** PHP no encuentra los certificados raíz. Hay que configurar `curl.cainfo` y `openssl.cafile` en el `php.ini` (lo muestra `php --ini`) apuntando al [bundle oficial de curl](https://curl.se/ca/cacert.pem) y reiniciar el servidor. La verificación HTTPS tiene que seguir habilitada.
 
 ## Decisiones técnicas
 
-### 1. Organización del backend
+### 1. Organización del código backend
 
-`PersonajeController` coordina las acciones CRUD y la importación. `GuardarPersonajeRequest` e `ImportarPersonajeRequest` validan las entradas; el modelo `Personaje` gestiona la persistencia mediante Eloquent. `SwapiService` concentra la llamada externa y el mapeo. Así el controlador conserva una responsabilidad clara y la consulta a SWAPI se puede probar sin depender de la red.
+`PersonajeController` coordina las acciones y se mantiene corto. `GuardarPersonajeRequest` e `ImportarPersonajeRequest` validan la entrada y `SwapiService` concentra la llamada HTTP, la validación de la respuesta y la traducción de campos. Elegí un Service y no un Repository porque Eloquent ya cubre el acceso a datos; la parte con lógica propia es SWAPI, y aislarla me permite probarla con `Http::fake()` sin depender de la red.
 
 ### 2. Componentes Vue
 
-`PersonajeForm.vue` se usa en Crear y Editar: presenta los mismos campos y errores sin duplicar ambos formularios. `Paginacion.vue` recibe el paginador y dibuja los enlaces Anterior/Siguiente en el listado. `AppLayout.vue` comparte la navegación y el marco visual de todas las páginas. El modal de importación concentra la interacción por ID.
+Organicé los componentes con Atomic Design. Los átomos (`Boton`, `Entrada`, `Selector`, `InsigniaOrigen`) no saben nada de personajes y se usan en todas las pantallas. `CampoFormulario` arma etiqueta, control, ayuda y error, y lo usan tanto el formulario como el modal de importación. `ModalDialogo` resuelve apertura, cierre, foco y botones, así que los modales de importar y eliminar solo definen su contenido. `PersonajeForm` sirve para crear y editar. La lógica de búsqueda, filtros y orden vive en el composable `useFiltrosPersonajes`, separada de la vista.
 
-### 3. Errores de SWAPI
+### 3. Manejo de errores de SWAPI
 
-El servidor valida el ID antes de consultar. El cliente HTTP tiene 5 segundos para conectar y 15 segundos para completar la petición. Una respuesta 404, otro estado HTTP, un timeout o datos incompletos producen mensajes claros y no guardan una ficha. El índice único impide importar el mismo ID dos veces, incluso si dos solicitudes llegan juntas. El modal conserva el ID para reintentar.
+El ID se valida antes de consultar (entero entre 1 y 83, que no esté importado). La petición tiene 5 segundos para conectar y 15 para responder. Un timeout, un 404, cualquier otro estado HTTP o una respuesta con datos incompletos muestran un mensaje claro en el modal y no guardan nada. El índice único de `swapi_id` evita duplicados incluso si llegan dos importaciones a la vez. En el frontend también contemplé la sesión vencida (419) y la falta de conexión con el servidor.
 
 ### 4. Validaciones
 
-Laravel valida los datos en los `FormRequest`, porque también debe proteger peticiones que no pasan por Vue. Los formularios HTML comprueban lo básico y muestran los errores recibidos mediante `useForm()`. La base refuerza la unicidad de `swapi_id`. El origen SWAPI y su ID se asignan sólo en el flujo de importación, sin confiar en campos adicionales enviados por el navegador.
+Las reglas de negocio están en los Form Requests, porque el backend tiene que protegerse de cualquier petición, venga o no de Vue. En el frontend uso validación HTML (`required`, `minlength`, `min`, `max`) para avisar rápido, y muestro los errores del backend con `useForm()`. La base de datos refuerza la unicidad de `swapi_id`. `origen_swapi` y `swapi_id` solo se asignan en la importación, nunca desde datos que manda el navegador.
 
 ### 5. Mayor dificultad
 
-La consulta real a SWAPI desde PHP falló inicialmente con `cURL error 60`: faltaba un bundle de certificados configurado en Herd Lite. Se instaló un bundle oficial verificado por SHA-256 y se reinició el servidor; después SWAPI devolvió HTTP 200 y se guardó R2-D2. También hubo que adaptar la regla adicional de nombres manuales para permitir R2-D2 al editar un importado.
+La primera consulta real a SWAPI desde PHP falló con `cURL error 60`: mi instalación de PHP (Herd Lite en Windows) no tenía configurado un bundle de certificados. Descargué el bundle oficial de curl, verifiqué su checksum SHA-256, lo configuré en el `php.ini` y después de reiniciar SWAPI respondió bien.
 
-### 6. Uso de inteligencia artificial
+### 6. Uso de Inteligencia Artificial
 
-Se usó Codex para ayudar a organizar la consigna, preparar el entorno, implementar el CRUD y la importación, proponer el diseño, escribir pruebas y documentación. El resultado se comprobó con pruebas automatizadas, compilación de Vite y recorridos en Edge contra MySQL y SWAPI reales. El candidato debe revisar personalmente el código y poder explicar o modificar cada flujo durante la entrevista.
+Sí. Usé Codex para organizar la consigna, preparar el entorno, implementar el CRUD y la importación, escribir pruebas y proponer el diseño. Después usé Claude para revisar la entrega contra la consigna, reorganizar el frontend con Atomic Design, migrar los estilos a Tailwind y ordenar el README. Validé el código con las pruebas automatizadas, con el build de Vite y recorriendo cada flujo en el navegador contra MySQL y SWAPI reales. Revisé cada archivo para poder explicarlo y modificarlo.
 
 ### 7. Mejoras futuras
 
-Como ampliación, agregaría búsqueda y filtros en el listado, además de pruebas de interfaz automatizadas. Antes de sumar funciones, completaría una nueva instalación y revisaría accesibilidad con lector de pantalla.
+- Traer el planeta de origen consultando `homeworld` (con caché, para no repetir consultas).
+- Un comando Artisan para importar varios personajes a la vez.
+- Pruebas de interfaz con Vitest y Playwright.
+- Paginación numerada y Docker Compose para levantar el proyecto con un solo comando.
 
 ### 8. Autoevaluación
 
-**Propuesta para revisar con el candidato: 8/10.** Las funciones obligatorias están implementadas y el manejo de errores de importación tiene pruebas concretas. El README, la instalación limpia y la visibilidad pública deben quedar confirmados antes de considerar cerrada la entrega.
+8/10. Lo mejor es el manejo de errores de la importación y que todo lo obligatorio está cubierto por pruebas.
 
 ### 9. Tiempo invertido
 
-**Tiempo estimado por el candidato: 8 horas de trabajo.**
+Aproximadamente 8 horas.
