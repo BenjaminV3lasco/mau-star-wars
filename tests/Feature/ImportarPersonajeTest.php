@@ -206,16 +206,12 @@ class ImportarPersonajeTest extends TestCase
         ]);
     }
 
-    public function test_manual_names_still_reject_numbers_even_with_a_forged_origin(): void
+    public function test_manual_characters_accept_numbers_and_ignore_a_forged_origin(): void
     {
-        $this->post(route('personajes.store'), ['nombre' => 'R2-D2', 'genero' => 'n/a', 'origen_swapi' => true, 'swapi_id' => 3])
-            ->assertSessionHasErrors('nombre');
-        $this->assertDatabaseCount('personajes', 0);
+        $this->post(route('personajes.store'), ['nombre' => 'C-3PO', 'genero' => 'n/a', 'origen_swapi' => true, 'swapi_id' => 2])
+            ->assertSessionHasNoErrors();
 
-        $personaje = Personaje::create(['nombre' => 'Leia Organa', 'genero' => 'femenino']);
-        $this->put(route('personajes.update', $personaje), ['nombre' => 'Leia 2', 'genero' => 'femenino', 'origen_swapi' => true])
-            ->assertSessionHasErrors('nombre');
-        $this->assertDatabaseHas('personajes', ['id' => $personaje->id, 'nombre' => 'Leia Organa', 'origen_swapi' => false]);
+        $this->assertDatabaseHas('personajes', ['nombre' => 'C-3PO', 'origen_swapi' => false, 'swapi_id' => null]);
     }
 
     public function test_database_failure_returns_an_error_without_saving(): void

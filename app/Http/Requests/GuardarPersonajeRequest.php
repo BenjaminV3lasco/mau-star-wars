@@ -2,27 +2,18 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Personaje;
 use Illuminate\Foundation\Http\FormRequest;
 
 class GuardarPersonajeRequest extends FormRequest
 {
     public function rules(): array
     {
-        $personaje = $this->route('personaje');
-        $reglasNombre = ['required', 'string', 'min:3', 'max:100'];
-
-        // Los droides importados, como R2-D2, conservan su nombre al editar.
-        if (! ($personaje instanceof Personaje && $personaje->origen_swapi)) {
-            $reglasNombre[] = 'not_regex:/\p{N}/u';
-        }
-
         return [
-            'nombre' => $reglasNombre,
+            'nombre' => ['required', 'string', 'min:3', 'max:100'],
             'altura' => ['nullable', 'integer', 'min:1', 'max:300'],
             'masa' => ['nullable', 'integer', 'min:1', 'max:500'],
-            'color_cabello' => ['nullable', 'string', 'max:100', 'not_regex:/\p{N}/u'],
-            'color_ojos' => ['nullable', 'string', 'max:100', 'not_regex:/\p{N}/u'],
+            'color_cabello' => ['nullable', 'string', 'max:100'],
+            'color_ojos' => ['nullable', 'string', 'max:100'],
             'genero' => ['required', 'in:masculino,femenino,n/a'],
             'planeta_origen' => ['nullable', 'string', 'max:100'],
         ];
@@ -33,7 +24,6 @@ class GuardarPersonajeRequest extends FormRequest
         return [
             'required' => 'El campo :attribute es obligatorio.',
             'string' => 'El campo :attribute debe ser texto.',
-            'not_regex' => 'El campo :attribute no puede contener números.',
             'integer' => 'El campo :attribute debe ser un número entero.',
             'nombre.min' => 'El nombre debe tener al menos :min caracteres.',
             'nombre.max' => 'El nombre admite hasta :max caracteres.',

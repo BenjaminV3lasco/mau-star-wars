@@ -3,57 +3,71 @@
 namespace App\Services;
 
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class SwapiService
 {
+    private const URL_PERSONAJES = 'https://swapi.py4e.com/api/people/';
+
     public function obtenerPersonaje(int $id): array
     {
+        $datos = $this->consultar($id)->json();
+
+        if (! $this->sonDatosValidos($datos)) {
+            $this->fallar('SWAPI devolvió datos incompletos o inválidos. No se guardó el personaje.');
+        }
+
+        return $this->traducir($datos);
+    }
+
+    private function consultar(int $id): Response
+    {
         try {
-            $response = Http::acceptJson()
+            $respuesta = Http::acceptJson()
                 ->connectTimeout(5)
                 ->timeout(15)
                 ->withoutRedirecting()
-                ->get('https://swapi.py4e.com/api/people/'.$id.'/');
+                ->get(self::URL_PERSONAJES.$id.'/');
         } catch (ConnectionException) {
-            throw ValidationException::withMessages([
-                'swapi_id' => 'SWAPI no respondió a tiempo o no está disponible. Intentá nuevamente.',
-            ]);
+            $this->fallar('SWAPI no respondió a tiempo o no está disponible. Intentá nuevamente.');
         }
 
-        if ($response->notFound()) {
-            throw ValidationException::withMessages([
-                'swapi_id' => 'No encontramos un personaje con ese ID en SWAPI. Probá con otro.',
-            ]);
+        if ($respuesta->notFound()) {
+            $this->fallar('No encontramos un personaje con ese ID en SWAPI. Probá con otro.');
         }
 
-        if (! $response->ok()) {
-            throw ValidationException::withMessages([
-                'swapi_id' => 'SWAPI no está disponible en este momento. Intentá nuevamente más tarde.',
-            ]);
+        if (! $respuesta->ok()) {
+            $this->fallar('SWAPI no está disponible en este momento. Intentá nuevamente más tarde.');
         }
 
-        $datos = $response->json();
+        return $respuesta;
+    }
 
-        if (is_array($datos) && isset($datos['name']) && is_string($datos['name'])) {
+    private function sonDatosValidos(mixed $datos): bool
+    {
+        if (! is_array($datos)) {
+            return false;
+        }
+
+        if (is_string($datos['name'] ?? null)) {
             $datos['name'] = trim($datos['name']);
         }
 
-        if (! is_array($datos) || Validator::make($datos, [
+        return Validator::make($datos, [
             'name' => ['required', 'string', 'min:3', 'max:100'],
             'height' => ['present', 'nullable', 'string', 'max:100'],
             'mass' => ['present', 'nullable', 'string', 'max:100'],
-            'hair_color' => ['present', 'nullable', 'string', 'max:100', 'not_regex:/\p{N}/u'],
-            'eye_color' => ['present', 'nullable', 'string', 'max:100', 'not_regex:/\p{N}/u'],
+            'hair_color' => ['present', 'nullable', 'string', 'max:100'],
+            'eye_color' => ['present', 'nullable', 'string', 'max:100'],
             'gender' => ['required', 'string', 'max:100'],
-        ])->fails()) {
-            throw ValidationException::withMessages([
-                'swapi_id' => 'SWAPI devolvió datos incompletos o inválidos. No se guardó el personaje.',
-            ]);
-        }
+        ])->passes();
+    }
 
+    private function traducir(array $datos): array
+    {
         return [
             'nombre' => trim($datos['name']),
             'altura' => $this->medida($datos['height'], 300),
@@ -73,14 +87,13 @@ class SwapiService
     {
         $valor = trim($valor ?? '');
 
-        // SWAPI usa comas para miles y puntos para decimales.
+        // SWAPI usa coma para miles ("1,358") y punto para decimales.
         if (! preg_match('/^\d+(?:,\d{3})*(?:\.\d+)?$/', $valor)) {
             return null;
         }
 
         $numero = (float) str_replace(',', '', $valor);
 
-        // Un dato fuera de los límites queda vacío, sin inventar otro valor.
         return $numero >= 1 && $numero <= $maximo ? (int) $numero : null;
     }
 
@@ -89,5 +102,10 @@ class SwapiService
         $valor = trim($valor ?? '');
 
         return $valor === '' || strtolower($valor) === 'unknown' ? null : $valor;
+    }
+
+    private function fallar(string $mensaje): never
+    {
+        throw ValidationException::withMessages(['swapi_id' => $mensaje]);
     }
 }
