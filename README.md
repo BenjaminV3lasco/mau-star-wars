@@ -8,7 +8,7 @@ Aplicación local para crear, consultar, editar, eliminar e importar personajes 
 - **Email:** pendiente de completar por el candidato antes de entregar.
 - **Teléfono:** +54 2657-610234
 - **GitHub:** [BenjaminV3lasco](https://github.com/BenjaminV3lasco)
-- **Repositorio:** [mau-star-wars](https://github.com/BenjaminV3lasco/mau-star-wars). Comprobar acceso público sin iniciar sesión antes de enviar el enlace.
+- **Repositorio público:** [github.com/BenjaminV3lasco/mau-star-wars](https://github.com/BenjaminV3lasco/mau-star-wars).
 
 ## Requisitos del sistema
 
