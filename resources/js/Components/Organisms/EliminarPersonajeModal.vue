@@ -38,9 +38,9 @@ function eliminar() {
     <ModalDialogo
         :abierto="Boolean(personaje)"
         :ocupado="form.processing"
-        antetitulo="Archivo de personajes"
+        antetitulo="Acción irreversible"
         titulo="Eliminar personaje"
-        texto-confirmar="Eliminar personaje"
+        texto-confirmar="Eliminar"
         texto-ocupado="Eliminando…"
         variante="peligro"
         @cerrar="emit('cerrar')"
@@ -48,7 +48,6 @@ function eliminar() {
     >
         <template #descripcion>
             Vas a eliminar a <strong class="font-semibold text-strong">{{ personaje?.nombre }}</strong> del archivo.
-            Esta acción no se puede deshacer.
         </template>
 
         <Aviso v-if="form.errors.eliminar" tipo="error" class="mt-4">{{ form.errors.eliminar }}</Aviso>

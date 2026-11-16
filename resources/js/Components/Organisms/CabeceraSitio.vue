@@ -28,21 +28,23 @@ function alternarTema() {
 </script>
 
 <template>
-    <header class="escena-oscura border-b border-white/10 bg-[#090a0cf5]">
+    <header
+        class="escena-oscura relative border-b border-white/10 bg-[#090a0cf5]
+            after:absolute after:inset-x-0 after:-bottom-px after:h-px after:bg-linear-to-r after:from-transparent after:via-brand/45 after:to-transparent"
+    >
         <nav class="mx-auto flex h-[76px] max-w-[81rem] items-center gap-3 px-5 sm:h-[88px] sm:gap-6 sm:px-8" aria-label="Navegación principal">
             <Link href="/" class="flex w-[70px] shrink-0 xs:w-[90px] sm:w-[104px]" aria-label="Star Wars, inicio">
                 <img :src="LOGO" alt="Star Wars" width="512" height="244" class="h-auto w-full brightness-0 invert">
             </Link>
             <span class="hidden h-[27px] w-px bg-line sm:block" aria-hidden="true"></span>
-            <span class="hidden text-[.67rem] tracking-[.18em] text-muted uppercase sm:inline">Archivo de personajes</span>
+            <span class="hidden text-[.67rem] tracking-[.18em] text-muted uppercase sm:inline">Archivo galáctico</span>
 
             <div class="ml-auto flex items-center gap-[.45rem] xs:gap-2.5 sm:gap-[1.1rem]">
                 <div class="flex items-center gap-[.55rem] 2xs:gap-[.8rem] xs:gap-4 sm:gap-6">
-                    <component
-                        :is="rutaActual === enlace.href ? 'span' : Link"
+                    <Link
                         v-for="enlace in ENLACES"
                         :key="enlace.href"
-                        :href="rutaActual === enlace.href ? undefined : enlace.href"
+                        :href="enlace.href"
                         :aria-current="rutaActual === enlace.href ? 'page' : undefined"
                         class="relative inline-flex min-h-11 items-center text-[.67rem] text-[#eeeeef] 2xs:text-xs xs:text-[.8rem]
                             hover:text-gold aria-[current=page]:text-gold
@@ -50,7 +52,7 @@ function alternarTema() {
                             hover:after:scale-x-100 focus-visible:after:scale-x-100 aria-[current=page]:after:scale-x-100"
                     >
                         {{ enlace.nombre }}
-                    </component>
+                    </Link>
                 </div>
                 <button
                     type="button"

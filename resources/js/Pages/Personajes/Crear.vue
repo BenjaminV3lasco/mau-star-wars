@@ -25,6 +25,6 @@ function guardar() {
         titulo="Crear personaje"
         descripcion="Sumá un nuevo protagonista a tu galaxia. Completá su identidad y los detalles de su ficha."
     >
-        <PersonajeForm :form="form" texto-enviar="Guardar personaje" @enviar="guardar" />
+        <PersonajeForm :form="form" texto-enviar="Guardar" @enviar="guardar" />
     </PersonajeFormLayout>
 </template>

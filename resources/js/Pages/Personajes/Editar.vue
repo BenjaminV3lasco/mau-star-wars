@@ -29,6 +29,6 @@ function actualizar() {
         titulo="Editar personaje"
         :descripcion="`Actualizá los datos de ${personaje.nombre} y mantené su historia al día.`"
     >
-        <PersonajeForm :form="form" texto-enviar="Actualizar personaje" @enviar="actualizar" />
+        <PersonajeForm :form="form" texto-enviar="Actualizar" @enviar="actualizar" />
     </PersonajeFormLayout>
 </template>

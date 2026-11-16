@@ -6,10 +6,11 @@ defineProps({ tipo: { type: String, default: 'exito' } });
     <p
         v-if="tipo === 'exito'"
         role="status"
-        class="animate-entrar rounded-[3px] border border-l-[3px] border-[#477866] border-l-[#a8e3be] bg-[#12251d] px-[1.2rem] py-4 text-sm text-[#c6efd7]
+        class="flex animate-entrar items-center gap-3 rounded-[3px] border border-l-[3px] border-[#477866] border-l-[#a8e3be] bg-[#12251d] px-[1.2rem] py-4 text-sm text-[#c6efd7]
             light:border-[#9dc6ae] light:border-l-[#438764] light:bg-[#e8f5ec] light:text-[#1c5636]"
     >
-        <slot />
+        <span class="text-[#a8e3be] light:text-[#438764]" aria-hidden="true">✦</span>
+        <span><slot /></span>
     </p>
     <p
         v-else

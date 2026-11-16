@@ -1,5 +1,8 @@
 <script setup>
-defineProps({ swapi: { type: Boolean, default: false } });
+defineProps({
+    swapi: { type: Boolean, default: false },
+    swapiId: { type: Number, default: null },
+});
 </script>
 
 <template>
@@ -10,6 +13,6 @@ defineProps({ swapi: { type: Boolean, default: false } });
             : 'border-[#414349] text-[#c4c7ce] light:border-[#d1ccbf] light:text-[#525966]'"
     >
         <span class="size-1 rounded-full bg-current" aria-hidden="true"></span>
-        {{ swapi ? 'SWAPI' : 'Manual' }}
+        {{ swapi ? 'SWAPI' : 'Manual' }}<span v-if="swapiId" class="tabular-nums">#{{ swapiId }}</span>
     </span>
 </template>

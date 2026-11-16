@@ -1,9 +1,9 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { Head, usePage } from '@inertiajs/vue3';
-import Antetitulo from '../../Components/Atoms/Antetitulo.vue';
 import Boton from '../../Components/Atoms/Boton.vue';
 import EnlaceVolver from '../../Components/Atoms/EnlaceVolver.vue';
+import EsquinasHud from '../../Components/Atoms/EsquinasHud.vue';
 import InsigniaOrigen from '../../Components/Atoms/InsigniaOrigen.vue';
 import EliminarPersonajeModal from '../../Components/Organisms/EliminarPersonajeModal.vue';
 import MarcoPagina from '../../Components/Templates/MarcoPagina.vue';
@@ -38,19 +38,20 @@ const caracteristicas = computed(() => [
                 light:bg-[radial-gradient(ellipse_at_95%_0%,#d3a9000b,transparent_36%),linear-gradient(135deg,#fffefa,#f6f3e9_78%)]"
             aria-labelledby="ficha-titulo"
         >
-            <span class="absolute top-12 left-0 -z-10 h-16 w-[3px] bg-gold shadow-[0_0_16px_#ffe15a40]" aria-hidden="true"></span>
+            <span
+                class="absolute top-12 left-0 -z-10 h-16 w-[3px] rounded-full"
+                :class="personaje.origen_swapi ? 'bg-ice shadow-[0_0_18px_#94d9ed70]' : 'bg-gold shadow-[0_0_16px_#ffe15a40]'"
+                aria-hidden="true"
+            ></span>
+            <EsquinasHud />
 
             <div class="flex items-center justify-between gap-4">
-                <span class="text-2xs tracking-[.16em] text-muted uppercase">Ficha / {{ numeroFicha(personaje.id) }}</span>
-                <InsigniaOrigen :swapi="personaje.origen_swapi" />
+                <span class="text-2xs tracking-[.16em] text-muted tabular-nums uppercase">Ficha / {{ numeroFicha(personaje.id) }}</span>
+                <InsigniaOrigen :swapi="personaje.origen_swapi" :swapi-id="personaje.swapi_id" />
             </div>
 
-            <header class="flex items-start justify-between gap-6 py-8 xs:items-center sm:pt-[2.7rem] sm:pb-[2.2rem]">
-                <div>
-                    <Antetitulo linea class="mb-2.5">Archivo galáctico</Antetitulo>
-                    <h1 id="ficha-titulo" class="font-display text-[clamp(3rem,7vw,5.4rem)] leading-[.98] font-semibold text-strong">{{ personaje.nombre }}</h1>
-                    <p class="mt-[.8rem] text-[.86rem] leading-[1.7] text-soft">Ficha completa del personaje y sus datos registrados.</p>
-                </div>
+            <header class="flex items-center justify-between gap-6 py-6 sm:py-8">
+                <h1 id="ficha-titulo" class="font-display text-[clamp(3rem,7vw,5.4rem)] leading-[.98] font-semibold text-strong">{{ personaje.nombre }}</h1>
                 <span
                     class="inline-flex size-11 flex-none items-center justify-center rounded-full border border-gold/25 text-base text-gold shadow-[0_0_35px_#ffe15a0b] xs:size-[4.5rem] xs:text-2xl"
                     aria-hidden="true"
@@ -59,11 +60,11 @@ const caracteristicas = computed(() => [
 
             <section class="border-t border-line pt-6" aria-labelledby="caracteristicas-titulo">
                 <h2 id="caracteristicas-titulo" class="mb-4 text-2xs font-semibold tracking-[.14em] text-soft uppercase">Características</h2>
-                <dl class="grid grid-cols-1 gap-[.8rem] xs:grid-cols-2 sm:grid-cols-3">
+                <dl class="grid grid-cols-2 gap-[.8rem] sm:grid-cols-3">
                     <div
                         v-for="dato in caracteristicas"
                         :key="dato.etiqueta"
-                        class="min-w-0 rounded-[3px] border border-white/[.07] bg-white/[.016] p-4 xs:min-h-[6.1rem] light:border-[#ddd8cc] light:bg-white/65"
+                        class="min-w-0 rounded-[3px] border border-white/[.07] bg-white/[.016] p-3 xs:p-4 sm:min-h-[6.1rem] light:border-[#ddd8cc] light:bg-white/65"
                     >
                         <dt class="mb-2.5 text-xs text-muted">{{ dato.etiqueta }}</dt>
                         <dd class="font-display text-[clamp(1.2rem,2vw,1.7rem)] leading-[1.25] font-medium wrap-anywhere text-strong">{{ dato.valor }}</dd>
@@ -71,24 +72,10 @@ const caracteristicas = computed(() => [
                 </dl>
             </section>
 
-            <section
-                class="mt-6 flex flex-col items-start gap-[.8rem] border-t border-line pt-6 xs:flex-row xs:items-center xs:justify-between xs:gap-6"
-                aria-labelledby="procedencia-titulo"
-            >
-                <div>
-                    <h2 id="procedencia-titulo" class="mb-2 text-2xs font-semibold tracking-[.14em] text-soft uppercase">Procedencia</h2>
-                    <p class="text-[.82rem] leading-[1.6] text-soft">
-                        {{ personaje.origen_swapi ? 'Importado desde la API de Star Wars.' : 'Creado manualmente en este archivo.' }}
-                    </p>
-                </div>
-                <p v-if="personaje.swapi_id != null" class="text-[.73rem] text-muted">
-                    ID de SWAPI <strong class="ml-1.5 font-semibold text-ice">#{{ personaje.swapi_id }}</strong>
-                </p>
-            </section>
 
             <div class="mt-8 flex flex-col gap-3 border-t border-line pt-6 xs:flex-row xs:flex-wrap xs:*:min-w-40" role="group" aria-label="Acciones de la ficha">
-                <Boton :href="`/personajes/${personaje.id}/editar`">Editar ficha <span class="text-lg" aria-hidden="true">↗</span></Boton>
-                <Boton variante="peligro" @click="personajeAEliminar = personaje">Eliminar personaje</Boton>
+                <Boton :href="`/personajes/${personaje.id}/editar`">Editar <span class="text-lg" aria-hidden="true">↗</span></Boton>
+                <Boton variante="peligro" @click="personajeAEliminar = personaje">Eliminar</Boton>
             </div>
         </article>
 

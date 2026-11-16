@@ -1,6 +1,7 @@
 <script setup>
 import Boton from '../Atoms/Boton.vue';
 import Entrada from '../Atoms/Entrada.vue';
+import EsquinasHud from '../Atoms/EsquinasHud.vue';
 import Selector from '../Atoms/Selector.vue';
 import CampoFormulario from '../Molecules/CampoFormulario.vue';
 import { GENEROS } from '../../utils/personaje.js';
@@ -34,11 +35,12 @@ const SECCIONES = [
 
 <template>
     <form
-        class="min-w-0 animate-entrar rounded-[3px] border border-[#363941] bg-linear-135 from-[#191c21] to-[#101215] p-5 xs:p-6 md:p-8
+        class="relative min-w-0 animate-entrar rounded-[3px] border border-[#363941] bg-linear-135 from-[#191c21] to-[#101215] p-5 xs:p-6 md:p-8
             light:border-[#d8d3c7] light:from-panel light:to-[#f7f5ee]"
         :aria-busy="form.processing"
         @submit.prevent="$emit('enviar')"
     >
+        <EsquinasHud />
         <p class="pb-6 text-xs text-[#aeb2bb] light:text-[#3f444d]">
             Los campos con <span class="text-gold" aria-hidden="true">*</span> son obligatorios.
         </p>

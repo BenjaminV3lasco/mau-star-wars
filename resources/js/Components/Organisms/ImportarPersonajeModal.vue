@@ -46,15 +46,16 @@ function importar() {
     <ModalDialogo
         :abierto="abierto"
         :ocupado="form.processing"
-        antetitulo="El universo en tu archivo"
+        antetitulo="Transmisión entrante"
         titulo="Importar desde SWAPI"
-        texto-confirmar="Importar personaje"
-        texto-ocupado="Importando…"
+        texto-confirmar="Importar"
+        texto-ocupado="Estableciendo enlace…"
+        holograma
         @cerrar="emit('cerrar')"
         @confirmar="importar"
     >
         <template #descripcion>
-            Traé un personaje de la API de Star Wars usando su ID. Sus datos se guardarán en tu archivo.
+            Los datos del personaje se traducen al español y se guardan en tu archivo.
         </template>
 
         <CampoFormulario
@@ -63,7 +64,7 @@ function importar() {
             class="mt-6"
             etiqueta="ID del personaje"
             requerido
-            ayuda="Ingresá un número del 1 al 83. Por ejemplo, 3 corresponde a R2-D2."
+            ayuda="Ingresá un número del 1 al 83. Por ejemplo, 3 corresponde a R2‑D2."
             :error="form.errors.swapi_id"
         >
             <Entrada

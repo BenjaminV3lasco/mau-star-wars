@@ -28,7 +28,7 @@ defineProps({
                 ></div>
 
                 <div class="max-w-[90%] px-6 py-8 xs:max-w-[75%] sm:max-w-none sm:p-6 md:p-9">
-                    <Antetitulo class="mb-5">Star Wars · Archivo</Antetitulo>
+                    <Antetitulo class="mb-5">Star Wars</Antetitulo>
                     <TituloPagina class="text-[2.7rem] xs:text-5xl sm:text-[clamp(2.8rem,4.5vw,4rem)]">{{ titulo }}</TituloPagina>
                     <p class="mt-[1.3rem] max-w-[30rem] text-[.8rem] leading-[1.8] text-soft sm:text-[.85rem]">{{ descripcion }}</p>
                 </div>
