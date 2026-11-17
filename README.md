@@ -92,7 +92,9 @@ Para correr las pruebas: `php artisan test`. Usan SQLite en memoria, así que no
 - Modo claro/oscuro, guardado en el navegador
 - Vista de detalle de cada personaje
 - Página de error 404 ambientada en lugar de la de Laravel
-- Interfaz ambientada en Star Wars: campo estelar, color por origen (celeste SWAPI, dorado manual), modal de importación holográfico
+- Interfaz ambientada en Star Wars: estrellas que titilan, botones y campos con brillo de sable de luz, color por origen (celeste SWAPI, dorado manual), modal de importación holográfico y modo claro con estética de plano técnico
+- Efectos de sonido sintetizados con Web Audio API (sin archivos ni librerías), con botón para silenciarlos
+- Cambio de tema con transición circular (View Transitions API)
 
 ## Tecnologías
 
