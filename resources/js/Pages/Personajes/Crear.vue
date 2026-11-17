@@ -1,4 +1,5 @@
 <script setup>
+// Alta de personaje. El estado del formulario vive en useForm de Inertia.
 import { Head, useForm } from '@inertiajs/vue3';
 import PersonajeForm from '../../Components/Organisms/PersonajeForm.vue';
 import PersonajeFormLayout from '../../Components/Templates/PersonajeFormLayout.vue';

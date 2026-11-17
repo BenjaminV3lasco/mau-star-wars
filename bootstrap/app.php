@@ -22,6 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
 
+        // 403, 404 y 503 se muestran con la página Error.vue del sitio en
+        // lugar de la de Laravel. El resto de los errores sigue el flujo normal.
         Inertia::handleExceptionsUsing(function (ExceptionResponse $respuesta) {
             $estado = $respuesta->statusCode();
 

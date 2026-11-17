@@ -8,10 +8,25 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Consulta un personaje en SWAPI y lo traduce al formato de la tabla personajes.
+ *
+ * Toda falla (timeout, 404, error del servidor o datos incompletos) se lanza
+ * como ValidationException sobre el campo swapi_id. Así Laravel la devuelve
+ * al modal igual que cualquier error de validación, sin lógica extra en el
+ * controlador ni en Vue.
+ */
 class SwapiService
 {
     private const URL_PERSONAJES = 'https://swapi.py4e.com/api/people/';
 
+    private const SEGUNDOS_PARA_CONECTAR = 5;
+
+    private const SEGUNDOS_PARA_RESPONDER = 15;
+
+    /**
+     * Devuelve los datos listos para crear un Personaje.
+     */
     public function obtenerPersonaje(int $id): array
     {
         $datos = $this->consultar($id)->json();
@@ -23,12 +38,19 @@ class SwapiService
         return $this->traducir($datos);
     }
 
+    /**
+     * Hace la petición HTTP y traduce cada falla a un mensaje para el usuario.
+     *
+     * Los timeouts evitan que la importación quede colgada si la API está
+     * caída. No se siguen redirecciones: una respuesta distinta de 200 se
+     * trata como error.
+     */
     private function consultar(int $id): Response
     {
         try {
             $respuesta = Http::acceptJson()
-                ->connectTimeout(5)
-                ->timeout(15)
+                ->connectTimeout(self::SEGUNDOS_PARA_CONECTAR)
+                ->timeout(self::SEGUNDOS_PARA_RESPONDER)
                 ->withoutRedirecting()
                 ->get(self::URL_PERSONAJES.$id.'/');
         } catch (ConnectionException) {
@@ -46,6 +68,10 @@ class SwapiService
         return $respuesta;
     }
 
+    /**
+     * La respuesta de una API externa no es confiable: se exige que traiga
+     * los campos esperados con el tipo correcto antes de guardar nada.
+     */
     private function sonDatosValidos(mixed $datos): bool
     {
         if (! is_array($datos)) {
@@ -66,6 +92,13 @@ class SwapiService
         ])->passes();
     }
 
+    /**
+     * Mapea los campos en inglés a los de la consigna.
+     *
+     * Los géneros que no son male ni female (hermaphrodite, none, n/a) se
+     * guardan como n/a, el único otro valor que admite la tabla. planeta_origen
+     * queda vacío porque SWAPI sólo entrega la URL del planeta en homeworld.
+     */
     private function traducir(array $datos): array
     {
         return [
@@ -83,11 +116,18 @@ class SwapiService
         ];
     }
 
+    /**
+     * Convierte una medida de SWAPI a entero dentro de los límites del formulario.
+     *
+     * SWAPI usa coma para miles ("1,358") y punto para decimales ("78.2"), y
+     * "unknown" cuando no tiene el dato. Un valor desconocido o fuera de
+     * límites queda vacío en lugar de inventar uno; así un personaje importado
+     * sigue siendo editable con las mismas reglas que uno manual.
+     */
     public static function convertirMedida(?string $valor, int $maximo): ?int
     {
         $valor = trim($valor ?? '');
 
-        // SWAPI usa coma para miles ("1,358") y punto para decimales.
         if (! preg_match('/^\d+(?:,\d{3})*(?:\.\d+)?$/', $valor)) {
             return null;
         }
@@ -97,6 +137,9 @@ class SwapiService
         return $numero >= 1 && $numero <= $maximo ? (int) $numero : null;
     }
 
+    /**
+     * SWAPI escribe "unknown" cuando no tiene el dato; se guarda vacío.
+     */
     private function textoOpcional(?string $valor): ?string
     {
         $valor = trim($valor ?? '');

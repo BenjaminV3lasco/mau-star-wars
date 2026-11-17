@@ -1,4 +1,7 @@
 <script setup>
+// Modal de importación desde SWAPI. useForm maneja el estado de carga y los
+// errores que devuelve Laravel; los fallos HTTP o de red se traducen a un
+// mensaje en el mismo campo y el ID se conserva para reintentar.
 import { nextTick, ref, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Entrada from '../Atoms/Entrada.vue';

@@ -13,6 +13,7 @@ Route::controller(PersonajeController::class)
         Route::get('/crear', 'create')->name('create');
         Route::post('/', 'store')->name('store');
         Route::post('/importar', 'importar')->name('importar');
+        // Las rutas con {personaje} van al final para que /crear no se lea como un ID.
         Route::get('/{personaje}', 'show')->name('show');
         Route::get('/{personaje}/editar', 'edit')->name('edit');
         Route::put('/{personaje}', 'update')->name('update');

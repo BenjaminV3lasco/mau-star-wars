@@ -1,4 +1,6 @@
 <script setup>
+// Mensaje de éxito (role="status") o de error (role="alert"), para que los
+// lectores de pantalla lo anuncien sin mover el foco.
 import { onMounted } from 'vue';
 import { reproducir } from '../../composables/useSonido.js';
 

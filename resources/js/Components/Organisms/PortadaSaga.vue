@@ -1,4 +1,5 @@
 <script setup>
+// Portada con el arte de la saga. "amplia" es la variante alta del inicio.
 import Antetitulo from '../Atoms/Antetitulo.vue';
 import TituloPagina from '../Atoms/TituloPagina.vue';
 

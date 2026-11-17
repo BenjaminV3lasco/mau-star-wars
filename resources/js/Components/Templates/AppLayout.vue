@@ -1,4 +1,5 @@
 <script setup>
+// Layout persistente (ver app.js): la cabecera no se vuelve a montar al navegar.
 import CabeceraSitio from '../Organisms/CabeceraSitio.vue';
 </script>
 

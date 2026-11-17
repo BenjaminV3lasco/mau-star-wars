@@ -1,4 +1,6 @@
 <script setup>
+// Anterior / Siguiente a partir del paginador de Laravel. Las URLs ya traen los
+// filtros (withQueryString), así que cambiar de página no los pierde.
 import Boton from '../Atoms/Boton.vue';
 
 defineProps({ paginador: { type: Object, required: true } });

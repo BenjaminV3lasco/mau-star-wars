@@ -1,4 +1,5 @@
 <script setup>
+// Texto chico en mayúsculas que acompaña a los títulos.
 defineProps({ linea: { type: Boolean, default: false } });
 </script>
 

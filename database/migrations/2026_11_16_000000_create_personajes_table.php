@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('genero', 100);
             $table->string('planeta_origen', 100)->nullable();
             $table->boolean('origen_swapi')->default(false);
+            // Único y nullable: los manuales no tienen ID externo y la base
+            // impide importar dos veces el mismo personaje de SWAPI.
             $table->unsignedInteger('swapi_id')->nullable()->unique();
             $table->timestamps();
         });

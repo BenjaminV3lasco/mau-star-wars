@@ -1,6 +1,12 @@
 import { computed, nextTick, onBeforeUnmount, ref, watch } from 'vue';
 import { router } from '@inertiajs/vue3';
 
+// Búsqueda, filtro y orden del listado, sincronizados con la URL.
+//
+// Cada cambio pide al servidor sólo los props del listado (only), sin recargar
+// la página. La búsqueda espera 300 ms después de la última tecla para no
+// consultar por cada letra.
+
 const ORDEN_INICIAL = 'id';
 const DIRECCION_INICIAL = 'desc';
 
@@ -30,6 +36,7 @@ export function useFiltrosPersonajes(filtrosDelServidor) {
         };
     }
 
+    // numeroPeticion permite ignorar el fin de una petición vieja si ya salió otra.
     function cargarListado() {
         filtrosEnviados = filtrosActuales();
         const consulta = { orden: filtrosEnviados.orden, direccion: filtrosEnviados.direccion };

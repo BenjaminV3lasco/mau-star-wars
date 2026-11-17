@@ -1,4 +1,7 @@
 <script setup>
+// Navegación principal, botón de sonido y cambio de tema. El tema se guarda en
+// localStorage y se aplica en app.blade.php antes de pintar, para evitar un
+// destello del tema equivocado al cargar.
 import { computed, ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { useSonido } from '../../composables/useSonido.js';

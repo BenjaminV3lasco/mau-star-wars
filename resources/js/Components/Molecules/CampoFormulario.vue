@@ -1,4 +1,7 @@
 <script setup>
+// Arma etiqueta + control + ayuda + error para cualquier campo. El control llega
+// por slot, así sirve para inputs y selects. aria-describedby conecta la ayuda y
+// el error con el control para que el lector de pantalla los lea juntos.
 import { computed } from 'vue';
 import MensajeError from '../Atoms/MensajeError.vue';
 

@@ -1,4 +1,6 @@
 <script setup>
+// Listado con filtros, paginación e importación. Tras importar o eliminar, el
+// foco vuelve al título del listado para que el teclado no quede perdido.
 import { nextTick, ref } from 'vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import Aviso from '../../Components/Atoms/Aviso.vue';

@@ -1,4 +1,7 @@
 <script setup>
+// Modal reutilizable sobre <dialog> nativo: el navegador ya resuelve el foco
+// atrapado, la tecla Escape y el fondo inerte. Los modales de importar y eliminar
+// sólo definen su contenido. Mientras hay una petición en curso no se puede cerrar.
 import { onBeforeUnmount, ref, useId, watch } from 'vue';
 import Antetitulo from '../Atoms/Antetitulo.vue';
 import Boton from '../Atoms/Boton.vue';

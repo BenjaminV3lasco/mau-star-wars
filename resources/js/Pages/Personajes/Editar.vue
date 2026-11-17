@@ -1,4 +1,6 @@
 <script setup>
+// Edición: el formulario arranca con los datos actuales. Los vacíos llegan como
+// null y se muestran como ''; Laravel los vuelve a guardar como null.
 import { Head, useForm } from '@inertiajs/vue3';
 import PersonajeForm from '../../Components/Organisms/PersonajeForm.vue';
 import PersonajeFormLayout from '../../Components/Templates/PersonajeFormLayout.vue';

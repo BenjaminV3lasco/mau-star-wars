@@ -1,4 +1,5 @@
 <script setup>
+// Error de un campo. Lo enlaza CampoFormulario con aria-describedby.
 import { onMounted } from 'vue';
 import { reproducir } from '../../composables/useSonido.js';
 

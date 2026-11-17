@@ -1,4 +1,7 @@
 <script setup>
+// Botón base del sitio. Con href renderiza un Link de Inertia (navega sin recargar);
+// sin href, un <button>. Las variantes imitan sables de luz: dorado para la acción
+// principal, celeste para las secundarias y rojo para las destructivas.
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import Spinner from './Spinner.vue';

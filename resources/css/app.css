@@ -1,5 +1,16 @@
+/*
+ * Estilos globales. El resto del diseño está en los componentes con utilidades de Tailwind.
+ *
+ * 1. @theme: colores, fuentes, breakpoints y animaciones (generan utilidades como bg-gold).
+ * 2. Modo claro: la variante light: y los mismos tokens con otros valores.
+ * 3. Base: fondo estelar (oscuro) o de Tatooine (claro), foco, scroll y movimiento reducido.
+ * 4. escena-oscura: zonas con arte que siguen oscuras en modo claro.
+ * 5. Componentes: la lista desplegable de los selectores.
+ * 6. Transición circular al cambiar de tema.
+ */
 @import 'tailwindcss';
 
+/* light:algo aplica la clase sólo cuando <html data-theme="light">. */
 @custom-variant light (&:where([data-theme='light'], [data-theme='light'] *));
 
 @theme {
@@ -70,6 +81,7 @@
 }
 
 @layer base {
+    /* Los mismos tokens con valores claros: las utilidades no cambian, sólo el color. */
     :root[data-theme='light'] {
         color-scheme: light;
         --color-ink: #f5f3ed;
@@ -103,6 +115,7 @@
         background-attachment: fixed;
     }
 
+    /* Segunda capa de estrellas que titila; en modo claro pasa a ser el paisaje de Tatooine. */
     body::before {
         content: '';
         position: fixed;
@@ -192,6 +205,7 @@
         overflow: hidden;
     }
 
+    /* Respeta la preferencia del sistema: sin animaciones ni transiciones. */
     @media (prefers-reduced-motion: reduce) {
         *, ::before, ::after {
             animation: none !important;
@@ -200,6 +214,7 @@
     }
 }
 
+/* Para la portada y el arte: conservan colores oscuros aunque el sitio esté en modo claro. */
 @utility escena-oscura {
     color-scheme: dark;
     --color-line: #33363c;

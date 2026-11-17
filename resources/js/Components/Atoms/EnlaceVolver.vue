@@ -1,4 +1,5 @@
 <script setup>
+// Enlace para volver al listado. Recibe href para conservar filtros y página.
 import { Link } from '@inertiajs/vue3';
 
 defineProps({ href: { type: String, default: '/personajes' } });

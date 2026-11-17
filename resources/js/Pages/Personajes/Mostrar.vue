@@ -1,4 +1,6 @@
 <script setup>
+// Ficha completa de un personaje. El enlace de volver conserva los filtros
+// con los que se llegó desde el listado.
 import { computed, ref } from 'vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import Boton from '../../Components/Atoms/Boton.vue';

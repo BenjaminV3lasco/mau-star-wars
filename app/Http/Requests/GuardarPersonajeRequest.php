@@ -4,6 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Reglas de alta y edición de personajes, tal como las pide la consigna.
+ *
+ * Se valida en el servidor aunque el formulario también valide, porque una
+ * petición puede llegar sin pasar por Vue. Crear y editar comparten estas
+ * reglas para que un personaje nunca quede en un estado que el otro rechace.
+ */
 class GuardarPersonajeRequest extends FormRequest
 {
     public function rules(): array
@@ -19,6 +26,9 @@ class GuardarPersonajeRequest extends FormRequest
         ];
     }
 
+    /**
+     * Mensajes en español y con la unidad de cada medida.
+     */
     public function messages(): array
     {
         return [

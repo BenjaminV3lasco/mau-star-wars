@@ -1,4 +1,6 @@
 <script setup>
+// Línea luminosa que se "enciende" bajo un título: dorada por defecto,
+// celeste (hielo) para los personajes importados de SWAPI.
 defineProps({
     hielo: { type: Boolean, default: false },
     arriba: { type: Boolean, default: false },

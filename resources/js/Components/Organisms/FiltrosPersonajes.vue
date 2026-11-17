@@ -1,4 +1,6 @@
 <script setup>
+// Controles de búsqueda, género y orden. Sólo muestra y edita los valores con
+// v-model; la lógica de cuándo consultar al servidor está en useFiltrosPersonajes.
 import Boton from '../Atoms/Boton.vue';
 import Entrada from '../Atoms/Entrada.vue';
 import Selector from '../Atoms/Selector.vue';

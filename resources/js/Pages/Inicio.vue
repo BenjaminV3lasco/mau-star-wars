@@ -1,4 +1,5 @@
 <script setup>
+// Portada del sitio.
 import { Head } from '@inertiajs/vue3';
 import Boton from '../Components/Atoms/Boton.vue';
 import PortadaSaga from '../Components/Organisms/PortadaSaga.vue';

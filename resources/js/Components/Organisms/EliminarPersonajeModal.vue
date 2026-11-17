@@ -1,4 +1,7 @@
 <script setup>
+// Confirmación de borrado. Se abre cuando recibe un personaje. Los errores
+// (404 si ya no existe, 419 si venció la sesión, falta de red) se muestran
+// dentro del modal en lugar de una página de error.
 import { watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Aviso from '../Atoms/Aviso.vue';

@@ -5,6 +5,11 @@ namespace Database\Seeders;
 use App\Models\Personaje;
 use Illuminate\Database\Seeder;
 
+/**
+ * Carga 12 personajes manuales de ejemplo para probar la paginación.
+ *
+ * Usa firstOrCreate, así se puede correr más de una vez sin duplicar fichas.
+ */
 class DatabaseSeeder extends Seeder
 {
     public function run(): void

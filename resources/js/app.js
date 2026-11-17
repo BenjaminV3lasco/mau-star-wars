@@ -2,6 +2,8 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { createApp, h } from 'vue';
 import AppLayout from './Components/Templates/AppLayout.vue';
 
+// Cada página se carga por separado (code splitting) y todas comparten AppLayout,
+// que queda montado entre navegaciones.
 const pages = import.meta.glob('./Pages/**/*.vue');
 
 createInertiaApp({

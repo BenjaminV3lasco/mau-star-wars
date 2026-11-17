@@ -1,4 +1,6 @@
 <script setup>
+// Tarjeta del listado. La parte de datos abre la ficha; Editar y Eliminar van en
+// una fila aparte. Eliminar sólo emite un evento: la página abre la confirmación.
 import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import InsigniaOrigen from '../Atoms/InsigniaOrigen.vue';

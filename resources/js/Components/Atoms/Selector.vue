@@ -1,4 +1,6 @@
 <script setup>
+// <select> nativo con el estilo del sitio. Se mantiene nativo por accesibilidad
+// y teclado; la lista desplegable se estiliza con CSS (clase selector-galactico).
 import { CLASES_CONTROL } from './control.js';
 
 const valor = defineModel();

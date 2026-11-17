@@ -1,4 +1,5 @@
 <script setup>
+// Estructura de Crear y Editar: arte a la izquierda y formulario a la derecha.
 import Antetitulo from '../Atoms/Antetitulo.vue';
 import EnlaceVolver from '../Atoms/EnlaceVolver.vue';
 import TituloPagina from '../Atoms/TituloPagina.vue';

@@ -1,4 +1,5 @@
 <script setup>
+// Contenedor <main> con el ancho y los márgenes comunes de cada página.
 defineProps({ compacto: { type: Boolean, default: false } });
 </script>
 

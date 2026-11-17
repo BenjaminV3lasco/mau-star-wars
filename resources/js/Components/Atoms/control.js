@@ -1,3 +1,5 @@
+// Clases de Tailwind compartidas por Entrada y Selector, para que todos los
+// campos se vean igual: brillo celeste al enfocar y rojo si hay un error.
 export const CLASES_CONTROL = `block min-h-12 w-full rounded-[3px] border border-[#3a3f48] bg-[#0b0e13] px-[.9rem] py-3
     text-base text-[#f4f4f5] caret-ice tabular-nums shadow-[inset_0_1px_0_#ffffff08,inset_0_2px_6px_#00000060] transition duration-200 sm:text-sm
     placeholder:text-[#6f7682] hover:enabled:border-[#5d6573] hover:enabled:bg-[#0d1117]

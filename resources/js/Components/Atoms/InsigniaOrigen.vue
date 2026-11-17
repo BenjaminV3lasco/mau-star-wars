@@ -1,4 +1,5 @@
 <script setup>
+// Indica si la ficha es manual o vino de SWAPI (con su ID, si se pasa).
 defineProps({
     swapi: { type: Boolean, default: false },
     swapiId: { type: Number, default: null },

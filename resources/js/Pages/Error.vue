@@ -1,4 +1,5 @@
 <script setup>
+// Página para 403, 404 y 503 (ver bootstrap/app.php).
 import { computed } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import Boton from '../Components/Atoms/Boton.vue';

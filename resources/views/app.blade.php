@@ -6,6 +6,7 @@
     <meta name="theme-color" content="#090a0c">
     <link rel="icon" type="image/svg+xml" sizes="any" href="{{ asset('favicon.svg') }}">
     @fonts
+    {{-- Aplica el tema guardado antes de pintar, para que no se vea un destello del tema oscuro. --}}
     <script>
         try {
             if (localStorage.getItem('mau-star-wars-theme') === 'light') {

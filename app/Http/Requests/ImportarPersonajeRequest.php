@@ -5,6 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
+/**
+ * Valida el ID antes de llamar a SWAPI.
+ *
+ * Con bail, un ID inválido o ya importado se rechaza sin consultar la API:
+ * no se gasta una petición externa que de todos modos no se podría guardar.
+ */
 class ImportarPersonajeRequest extends FormRequest
 {
     public function rules(): array

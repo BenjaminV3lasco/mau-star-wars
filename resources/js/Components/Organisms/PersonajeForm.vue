@@ -1,4 +1,8 @@
 <script setup>
+// Formulario compartido por Crear y Editar. Los campos se describen como datos
+// (SECCIONES) y se dibujan con el mismo CampoFormulario, así agregar un campo es
+// sumar una línea. Los atributos HTML (required, min, max) dan la validación
+// básica en el navegador; Laravel valida de nuevo y sus errores llegan por form.errors.
 import Boton from '../Atoms/Boton.vue';
 import Entrada from '../Atoms/Entrada.vue';
 import EsquinasHud from '../Atoms/EsquinasHud.vue';
