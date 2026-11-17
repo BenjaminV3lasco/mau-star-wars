@@ -4,6 +4,7 @@ import { useForm } from '@inertiajs/vue3';
 import Entrada from '../Atoms/Entrada.vue';
 import CampoFormulario from '../Molecules/CampoFormulario.vue';
 import ModalDialogo from '../Molecules/ModalDialogo.vue';
+import { reproducir } from '../../composables/useSonido.js';
 
 const props = defineProps({ abierto: { type: Boolean, default: false } });
 const emit = defineEmits(['cerrar', 'importado']);
@@ -23,7 +24,10 @@ function importar() {
     form.clearErrors();
     form.post('/personajes/importar', {
         preserveScroll: true,
-        onSuccess: () => emit('importado'),
+        onSuccess: () => {
+            reproducir('encender');
+            emit('importado');
+        },
         onHttpException: (respuesta) => {
             form.setError('swapi_id', respuesta.status === 419
                 ? 'La sesión venció. Recargá la página e intentá nuevamente.'

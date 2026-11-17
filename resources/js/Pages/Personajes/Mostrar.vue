@@ -5,6 +5,7 @@ import Boton from '../../Components/Atoms/Boton.vue';
 import EnlaceVolver from '../../Components/Atoms/EnlaceVolver.vue';
 import EsquinasHud from '../../Components/Atoms/EsquinasHud.vue';
 import InsigniaOrigen from '../../Components/Atoms/InsigniaOrigen.vue';
+import LineaSable from '../../Components/Atoms/LineaSable.vue';
 import EliminarPersonajeModal from '../../Components/Organisms/EliminarPersonajeModal.vue';
 import MarcoPagina from '../../Components/Templates/MarcoPagina.vue';
 import { conConsultaActual, etiquetaGenero, numeroFicha } from '../../utils/personaje.js';
@@ -58,7 +59,8 @@ const caracteristicas = computed(() => [
                 >✦</span>
             </header>
 
-            <section class="border-t border-line pt-6" aria-labelledby="caracteristicas-titulo">
+            <section class="relative border-t border-line pt-6" aria-labelledby="caracteristicas-titulo">
+                <LineaSable arriba :hielo="personaje.origen_swapi" />
                 <h2 id="caracteristicas-titulo" class="mb-4 text-2xs font-semibold tracking-[.14em] text-soft uppercase">Características</h2>
                 <dl class="grid grid-cols-2 gap-[.8rem] sm:grid-cols-3">
                     <div

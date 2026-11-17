@@ -3,6 +3,7 @@ import { watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import Aviso from '../Atoms/Aviso.vue';
 import ModalDialogo from '../Molecules/ModalDialogo.vue';
+import { reproducir } from '../../composables/useSonido.js';
 
 const props = defineProps({ personaje: { type: Object, default: null } });
 const emit = defineEmits(['cerrar', 'eliminado']);
@@ -21,7 +22,10 @@ function eliminar() {
 
     form.clearErrors();
     form.delete(`/personajes/${props.personaje.id}`, {
-        onSuccess: () => emit('eliminado'),
+        onSuccess: () => {
+            reproducir('apagar');
+            emit('eliminado');
+        },
         onHttpException: (respuesta) => {
             form.setError('eliminar', MENSAJES_HTTP[respuesta.status] ?? 'No pudimos completar la eliminación. Intentá nuevamente.');
             return false;

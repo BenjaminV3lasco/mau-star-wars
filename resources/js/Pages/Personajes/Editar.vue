@@ -2,6 +2,7 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import PersonajeForm from '../../Components/Organisms/PersonajeForm.vue';
 import PersonajeFormLayout from '../../Components/Templates/PersonajeFormLayout.vue';
+import { reproducir } from '../../composables/useSonido.js';
 
 const props = defineProps({
     personaje: { type: Object, required: true },
@@ -18,7 +19,7 @@ const form = useForm({
 });
 
 function actualizar() {
-    form.put(`/personajes/${props.personaje.id}`);
+    form.put(`/personajes/${props.personaje.id}`, { onSuccess: () => reproducir('exito') });
 }
 </script>
 

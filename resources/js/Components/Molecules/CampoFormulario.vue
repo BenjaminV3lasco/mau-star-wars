@@ -19,13 +19,17 @@ const descripcion = computed(() => [
 
 <template>
     <div class="group min-w-0">
-        <label :for="id" class="block text-ui font-medium text-[#dde0e6] transition-colors group-focus-within:text-ice light:text-[#3f444d]">
+        <label
+            :for="id"
+            class="flex items-center gap-2 text-[.68rem] font-medium tracking-[.14em] text-[#b9bec8] uppercase transition-colors
+                group-focus-within:text-ice light:text-[#4b515b] light:group-focus-within:text-[#08718a]"
+        >
             {{ etiqueta }}<span v-if="unidad" class="sr-only"> ({{ unidad }})</span>
-            <span v-if="requerido" class="ml-1 text-gold" aria-hidden="true">*</span>
+            <span v-if="requerido" class="text-gold" aria-hidden="true">*</span>
         </label>
         <div class="relative mt-2">
             <slot :id="id" :invalido="Boolean(error)" :descripcion="descripcion" />
-            <span v-if="unidad" class="pointer-events-none absolute top-1/2 right-[.85rem] -translate-y-1/2 text-xs text-muted" aria-hidden="true">
+            <span v-if="unidad" class="pointer-events-none absolute top-1/2 right-[.9rem] -translate-y-1/2 text-[.68rem] tracking-[.1em] text-muted uppercase" aria-hidden="true">
                 {{ unidad }}
             </span>
         </div>

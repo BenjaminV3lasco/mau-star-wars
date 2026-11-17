@@ -1,5 +1,12 @@
 <script setup>
-defineProps({ tipo: { type: String, default: 'exito' } });
+import { onMounted } from 'vue';
+import { reproducir } from '../../composables/useSonido.js';
+
+const props = defineProps({ tipo: { type: String, default: 'exito' } });
+
+onMounted(() => {
+    if (props.tipo === 'error') reproducir('error');
+});
 </script>
 
 <template>

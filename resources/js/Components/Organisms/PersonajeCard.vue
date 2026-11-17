@@ -20,9 +20,12 @@ const medidas = computed(() => [
     <li
         class="group relative animate-entrar rounded-[3px] border border-[#383b41] bg-linear-135 from-[#1b1e23] to-[#111317] to-80% transition
             focus-within:border-[#8b7d43] focus-within:shadow-[0_0_24px_#ffe15a0d]
-            hover:border-[#8b7d43] hover:shadow-[0_12px_30px_#00000040] motion-safe:hover:-translate-y-0.5
+            hover:border-[#8b7d43] hover:shadow-[0_12px_30px_#00000040,0_0_26px_#ffe15a12] motion-safe:hover:-translate-y-0.5
             light:border-[#d8d3c7] light:from-panel light:to-[#f7f5ee] light:shadow-[0_5px_18px_#34302a0c]
-            light:focus-within:border-[#b69942] light:hover:border-[#b69942] light:hover:shadow-[0_12px_30px_#45402d16]"
+            light:focus-within:border-[#b69942] light:hover:border-[#b69942] light:hover:shadow-[0_12px_30px_#45402d16]
+            before:pointer-events-none before:absolute before:inset-x-6 before:-top-px before:h-px before:bg-linear-to-r
+            before:from-transparent before:via-gold before:to-transparent before:opacity-0 before:transition-opacity
+            hover:before:opacity-100 focus-within:before:opacity-100"
     >
         <span
             class="absolute top-4 -left-px h-6 w-[3px] rounded-full transition group-focus-within:scale-y-160 group-hover:scale-y-160"

@@ -2,6 +2,7 @@
 import { Head, useForm } from '@inertiajs/vue3';
 import PersonajeForm from '../../Components/Organisms/PersonajeForm.vue';
 import PersonajeFormLayout from '../../Components/Templates/PersonajeFormLayout.vue';
+import { reproducir } from '../../composables/useSonido.js';
 
 const form = useForm({
     nombre: '',
@@ -14,7 +15,7 @@ const form = useForm({
 });
 
 function guardar() {
-    form.post('/personajes');
+    form.post('/personajes', { onSuccess: () => reproducir('exito') });
 }
 </script>
 

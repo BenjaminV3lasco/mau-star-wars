@@ -18,7 +18,6 @@
     <x-inertia::head />
 </head>
 <body>
-    <a href="#contenido" class="absolute -top-[100px] left-4 z-20 bg-brand px-4 py-3 text-ink focus:top-4">Saltar al contenido</a>
     <x-inertia::app />
 </body>
 </html>

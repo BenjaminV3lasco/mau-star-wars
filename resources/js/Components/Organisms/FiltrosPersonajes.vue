@@ -19,7 +19,8 @@ const CAMPOS_ORDEN = [
     { valor: 'masa', etiqueta: 'Masa' },
     { valor: 'genero', etiqueta: 'Género' },
 ];
-const CLASES_ETIQUETA = 'text-[.67rem] font-medium tracking-[.08em] text-muted uppercase';
+const CLASES_ETIQUETA = `text-[.68rem] font-medium tracking-[.14em] text-[#b9bec8] uppercase transition-colors
+    group-focus-within:text-ice light:text-[#4b515b] light:group-focus-within:text-[#08718a]`;
 
 function cambiarDireccion() {
     direccion.value = direccion.value === 'asc' ? 'desc' : 'asc';
@@ -32,12 +33,12 @@ function cambiarDireccion() {
         role="group"
         aria-label="Buscar, filtrar y ordenar el archivo"
     >
-        <div class="grid min-w-0 gap-2 xs:col-span-2 md:col-span-1">
+        <div class="group grid min-w-0 gap-2 xs:col-span-2 md:col-span-1">
             <label for="buscar-personaje" :class="CLASES_ETIQUETA">Buscar por nombre</label>
             <Entrada id="buscar-personaje" v-model="buscar" type="search" maxlength="100" autocomplete="off" placeholder="Ej.: Leia Organa" />
         </div>
 
-        <div class="grid min-w-0 gap-2">
+        <div class="group grid min-w-0 gap-2">
             <label for="filtrar-genero" :class="CLASES_ETIQUETA">Género</label>
             <Selector id="filtrar-genero" v-model="genero">
                 <option value="">Todos</option>
@@ -45,14 +46,14 @@ function cambiarDireccion() {
             </Selector>
         </div>
 
-        <div class="grid min-w-0 gap-2">
+        <div class="group grid min-w-0 gap-2">
             <label for="ordenar-personajes" :class="CLASES_ETIQUETA">Ordenar por</label>
             <Selector id="ordenar-personajes" v-model="orden">
                 <option v-for="campo in CAMPOS_ORDEN" :key="campo.valor" :value="campo.valor">{{ campo.etiqueta }}</option>
             </Selector>
         </div>
 
-        <div class="grid min-w-0 gap-2">
+        <div class="group grid min-w-0 gap-2">
             <span :class="CLASES_ETIQUETA">Dirección</span>
             <div class="flex gap-2 *:flex-1 xs:*:flex-none">
                 <Boton

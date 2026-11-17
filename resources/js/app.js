@@ -10,6 +10,7 @@ createInertiaApp({
         page.default.layout = AppLayout;
         return page;
     },
+    progress: { color: '#ffe15a' },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) }).use(plugin).mount(el);
     },

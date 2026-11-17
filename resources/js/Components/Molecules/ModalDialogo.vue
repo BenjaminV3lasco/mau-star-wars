@@ -3,6 +3,7 @@ import { onBeforeUnmount, ref, useId, watch } from 'vue';
 import Antetitulo from '../Atoms/Antetitulo.vue';
 import Boton from '../Atoms/Boton.vue';
 import EsquinasHud from '../Atoms/EsquinasHud.vue';
+import { reproducir } from '../../composables/useSonido.js';
 
 const props = defineProps({
     abierto: { type: Boolean, default: false },
@@ -20,7 +21,10 @@ const id = useId();
 const dialogo = ref(null);
 
 watch(() => props.abierto, (abierto) => {
-    if (abierto && !dialogo.value.open) dialogo.value.showModal();
+    if (abierto && !dialogo.value.open) {
+        dialogo.value.showModal();
+        reproducir(props.holograma ? 'holograma' : props.variante === 'peligro' ? 'alerta' : 'clic');
+    }
     if (!abierto && dialogo.value.open) dialogo.value.close();
 }, { flush: 'post' });
 
@@ -37,8 +41,12 @@ function cerrar() {
         :aria-labelledby="`${id}-titulo`"
         :aria-describedby="`${id}-descripcion`"
         class="m-auto max-h-[calc(100dvh-2rem)] w-[min(28rem,calc(100%-2rem))] overflow-auto rounded-[4px] border border-t-2 border-[#62616a] bg-panel p-6 text-fg
-            shadow-[0_24px_100px_#000000aa] open:animate-entrar xs:p-8 light:border-x-[#d4d0c7] light:border-b-[#d4d0c7]"
-        :class="variante === 'peligro' ? 'border-t-[#e57887]' : holograma ? 'border-t-ice [--color-gold:var(--color-ice)]' : 'border-t-gold'"
+            xs:p-8 light:border-x-[#d4d0c7] light:border-b-[#d4d0c7]"
+        :class="variante === 'peligro'
+            ? 'open:animate-entrar border-t-[#e57887] shadow-[0_24px_100px_#000000aa,0_-2px_30px_#e5788730] [--color-gold:#ff9aa6] light:[--color-gold:#a3283a]'
+            : holograma
+                ? 'open:animate-parpadeo border-t-ice shadow-[0_24px_100px_#000000aa,0_-2px_30px_#94d9ed35] [--color-gold:var(--color-ice)]'
+                : 'open:animate-entrar border-t-gold shadow-[0_24px_100px_#000000aa,0_-2px_30px_#ffe15a30]'"
         @cancel.prevent="cerrar"
     >
         <span

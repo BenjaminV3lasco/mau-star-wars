@@ -4,6 +4,7 @@ import { Head, usePage } from '@inertiajs/vue3';
 import Aviso from '../../Components/Atoms/Aviso.vue';
 import Boton from '../../Components/Atoms/Boton.vue';
 import EsquinasHud from '../../Components/Atoms/EsquinasHud.vue';
+import LineaSable from '../../Components/Atoms/LineaSable.vue';
 import Paginacion from '../../Components/Molecules/Paginacion.vue';
 import EliminarPersonajeModal from '../../Components/Organisms/EliminarPersonajeModal.vue';
 import FiltrosPersonajes from '../../Components/Organisms/FiltrosPersonajes.vue';
@@ -50,12 +51,14 @@ async function operacionCompletada() {
         <Aviso v-if="page.flash?.exito" class="mt-6">{{ page.flash.exito }}</Aviso>
 
         <section class="mt-7 sm:mt-[2.4rem]" aria-labelledby="listado-titulo" :aria-busy="cargando">
-            <div class="mb-6 flex flex-wrap items-start justify-between gap-4 border-b border-line pb-[1.4rem] sm:flex-nowrap sm:items-center">
+            <div class="relative mb-6 flex flex-wrap items-start justify-between gap-4 border-b border-line pb-[1.4rem] sm:flex-nowrap sm:items-center">
+                <LineaSable />
                 <div class="flex w-full flex-wrap items-center justify-between gap-2.5 xs:w-auto xs:justify-start sm:gap-4">
                     <h2 id="listado-titulo" ref="tituloListado" tabindex="-1" class="font-display text-[1.6rem] font-semibold tracking-[.025em] text-strong uppercase sm:text-[1.85rem]">
                         Tu archivo
                     </h2>
-                    <span class="rounded-[3px] border border-line px-2 py-1 text-[.67rem] text-[#b8bcc3] tabular-nums light:text-[#525966]" aria-live="polite">
+                    <span class="inline-flex items-center gap-2 rounded-[3px] border border-ice/30 bg-ice/5 px-2.5 py-1 text-[.67rem] tracking-[.06em] text-ice tabular-nums light:border-[#08718a]/30 light:text-[#08718a]" aria-live="polite">
+                        <span class="size-1.5 rounded-full bg-current shadow-[0_0_8px_currentColor]" :class="{ 'animate-pulse': cargando }" aria-hidden="true"></span>
                         {{ cargando ? 'Buscando…' : cantidadDePersonajes(personajes.total) }}
                     </span>
                 </div>

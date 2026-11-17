@@ -10,7 +10,8 @@ defineProps({
 
 <template>
     <section
-        class="escena-oscura relative isolate flex items-end overflow-hidden rounded-[3px] border border-white/15 bg-[#05070c] sm:items-center"
+        class="escena-oscura relative isolate flex items-end overflow-hidden rounded-[3px] border border-white/15 bg-[#05070c] sm:items-center
+            after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-linear-to-r after:from-transparent after:via-brand/50 after:to-transparent"
         :class="amplia ? 'min-h-[570px] sm:min-h-[min(680px,calc(100svh-220px))]' : 'min-h-[330px] sm:min-h-[280px]'"
     >
         <div
