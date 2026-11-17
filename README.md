@@ -11,12 +11,10 @@ Aplicación para crear, consultar, editar, eliminar e importar personajes de Sta
 
 ## Requisitos del Sistema
 
-- PHP **8.4 o superior** con las extensiones `pdo_mysql`, `curl` y `openssl` (y `pdo_sqlite` para correr las pruebas).
+- PHP **8.3 o superior** (lo exige Laravel 13) con las extensiones `pdo_mysql`, `curl` y `openssl` (y `pdo_sqlite` para correr las pruebas).
 - Composer 2
 - Node.js **22.12 o superior** y npm (lo pide Vite 8)
 - MySQL 8 o superior
-
-> Laravel 13 requiere PHP 8.3, pero el `composer.lock` incluye componentes de Symfony 8 que piden PHP 8.4.
 
 ## Instalación
 
