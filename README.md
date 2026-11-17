@@ -92,7 +92,7 @@ Para correr las pruebas: `php artisan test`. Usan SQLite en memoria, así que no
 - Modo claro/oscuro, guardado en el navegador
 - Vista de detalle de cada personaje
 - Página de error 404 ambientada en lugar de la de Laravel
-- Interfaz ambientada en Star Wars: estrellas que titilan, botones y campos con brillo de sable de luz, color por origen (celeste SWAPI, dorado manual), modal de importación holográfico y modo claro con estética de plano técnico
+- Interfaz ambientada en Star Wars: estrellas que titilan, botones y campos con brillo de sable de luz, color por origen (celeste SWAPI, dorado manual), modal de importación holográfico y modo claro con el ocaso de los dos soles de Tatooine
 - Efectos de sonido sintetizados con Web Audio API (sin archivos ni librerías), con botón para silenciarlos
 - Cambio de tema con transición circular (View Transitions API)
 
@@ -117,13 +117,14 @@ resources/js/
 │   ├── Organisms/   PersonajeForm, PersonajeCard, FiltrosPersonajes, modales, cabecera
 │   └── Templates/   AppLayout, MarcoPagina, PersonajeFormLayout
 ├── Pages/           Las páginas que renderiza Inertia (incluida Error.vue)
-├── composables/     useFiltrosPersonajes (búsqueda, filtros y orden)
+├── composables/     useFiltrosPersonajes (búsqueda, filtros y orden) y useSonido (efectos de sonido)
 └── utils/           Géneros y helpers compartidos
 ```
 
 ## Notas
 
 - **Mapeo de SWAPI:** los géneros distintos de `male` y `female` (`hermaphrodite`, `none`, `n/a`) se guardan como `n/a`. Los valores `unknown` quedan vacíos. Si una medida supera los límites del formulario (por ejemplo, Jabba pesa 1.358 kg), se guarda vacía para no inventar un dato. `planeta_origen` queda vacío porque SWAPI entrega una URL en `homeworld` y la consigna no pide una segunda consulta.
+- **`SQLSTATE[HY000] [2002]` al abrir la app:** MySQL no está corriendo. Hay que iniciar el servicio (por ejemplo, `net start MySQL84` en Windows) y recargar. Laravel guarda las sesiones en la base, por eso falla desde la primera página.
 - **`cURL error 60` al importar:** PHP no encuentra los certificados raíz. Hay que configurar `curl.cainfo` y `openssl.cafile` en el `php.ini` (lo muestra `php --ini`) apuntando al [bundle oficial de curl](https://curl.se/ca/cacert.pem) y reiniciar el servidor. La verificación HTTPS tiene que seguir habilitada.
 
 ## Decisiones técnicas
@@ -148,9 +149,11 @@ Las reglas de negocio están en los Form Requests, porque el backend tiene que p
 
 La primera consulta real a SWAPI desde PHP falló con `cURL error 60`: mi instalación de PHP (Herd Lite en Windows) no tenía configurado un bundle de certificados. Descargué el bundle oficial de curl, verifiqué su checksum SHA-256, lo configuré en el `php.ini` y después de reiniciar SWAPI respondió bien.
 
+También me encontré con que las pruebas pasaban en Windows pero fallaban en Linux: Inertia 3 busca las páginas en `resources/js/pages` (minúscula) y mi carpeta es `Pages`. Windows no distingue mayúsculas, así que el error no aparecía en mi máquina. Lo resolví declarando la ruta en `config/inertia.php` y verifiqué la instalación desde un clon limpio en Linux con MySQL.
+
 ### 6. Uso de Inteligencia Artificial
 
-Sí. Usé Codex para organizar la consigna, preparar el entorno, implementar el CRUD y la importación, escribir pruebas y proponer el diseño. Después usé Claude para revisar la entrega contra la consigna, reorganizar el frontend con Atomic Design, migrar los estilos a Tailwind y ordenar el README. Validé el código con las pruebas automatizadas, con el build de Vite y recorriendo cada flujo en el navegador contra MySQL y SWAPI reales. Revisé cada archivo para poder explicarlo y modificarlo.
+Sí. Usé Codex para organizar la consigna, preparar el entorno, implementar el CRUD y la importación, escribir pruebas y proponer el diseño. Después usé Claude para revisar la entrega contra la consigna, reorganizar el frontend con Atomic Design, migrar los estilos a Tailwind, sumar la ambientación (luces, sonidos y modo claro), documentar el código, ordenar el README y verificar una instalación limpia con PHP 8.3 y MySQL. Validé el código con las pruebas automatizadas, con el build de Vite y recorriendo cada flujo en el navegador contra MySQL y SWAPI reales. Revisé cada archivo para poder explicarlo y modificarlo.
 
 ### 7. Mejoras futuras
 
